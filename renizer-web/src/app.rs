@@ -12,7 +12,6 @@ pub fn App() -> impl IntoView {
         // injects a stylesheet into the document <head>
         // id=leptos means cargo-leptos will hot-reload this stylesheet
         <Stylesheet id="leptos" href="/pkg/renizer-web.css"/>
-        <Script src="https://cdn.tailwindcss.com"/>
         
         // sets the document title
         <Title text="REnizer"/>
