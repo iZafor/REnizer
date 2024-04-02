@@ -12,17 +12,12 @@ pub fn App() -> impl IntoView {
     provide_meta_context();
     
     view! {
-        <Stylesheet id="leptos" href="/pkg/renizer-web.css"/>
-        <Script src="https://cdn.tailwindcss.com"/>
-        <TailwindConfig/>
-
-        // sets the document title
         <Title text="REnizer"/>
+        <Link rel="icon" href="/images/logo/icon.png"/> // logo
+        <GlobalStyle/>
+        <Stylesheet id="leptos" href="/pkg/renizer-web.css"/>
 
-        // logo
-        <Link rel="icon" href="/images/logo/logo-no-background.png"/>
 
-        // content for this welcome page
         <Router fallback=|| {
             let mut outside_errors = Errors::default();
             outside_errors.insert_with_default_key(AppError::NotFound);
