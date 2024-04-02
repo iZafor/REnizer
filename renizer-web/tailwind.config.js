@@ -1,5 +1,9 @@
 export default {
-  content: ["./index.html", "./src/**/*.rs"],
+  content: [
+    "./index.html",
+    "./src/**/*.rs",
+    "./node_modules/tw-elements/js/**/*.js"
+  ],
   theme: {
     extend: {
       keyframes: {
@@ -19,5 +23,5 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [require("tw-elements/plugin.cjs")],
 };

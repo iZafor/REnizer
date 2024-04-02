@@ -17,7 +17,6 @@ pub fn App() -> impl IntoView {
         <GlobalStyle/>
         <Stylesheet id="leptos" href="/pkg/renizer-web.css"/>
 
-
         <Router fallback=|| {
             let mut outside_errors = Errors::default();
             outside_errors.insert_with_default_key(AppError::NotFound);
@@ -27,6 +26,7 @@ pub fn App() -> impl IntoView {
                 <Routes>
                     <Route path="" view=HomePage/>
                     <Route path="/login" view=Login/>
+                    <Route path="/register" view=Register/>
                 </Routes>
             </main>
         </Router>

@@ -4,5 +4,8 @@ pub use global_style::*;
 pub mod login;
 pub use login::*;
 
+pub mod register;
+pub use register::*;
+
 pub mod logo;
 pub use logo::*;
