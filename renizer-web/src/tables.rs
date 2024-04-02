@@ -1,5 +1,5 @@
-use serde::{Serialize, Deserialize};
 use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
 #[cfg(feature = "ssr")]
 use sqlx::FromRow;
 
@@ -9,14 +9,14 @@ pub struct Organization {
     pub org_id: String,
     pub name: String,
     pub email: Option<String>,
-    pub location: Option<String>
+    pub location: Option<String>,
 }
 
 #[derive(PartialEq, Eq, Serialize, Deserialize)]
 #[cfg_attr(feature = "ssr", derive(FromRow))]
 pub struct OrganizationContact {
     pub org_id: String,
-    pub contact: String
+    pub contact: String,
 }
 
 #[derive(PartialEq, Eq, Serialize, Deserialize)]
@@ -28,14 +28,14 @@ pub struct User {
     pub email: String,
     pub contact_number: Option<String>,
     pub user_type: char,
-    pub org_id: Option<String>
+    pub org_id: Option<String>,
 }
 
 #[derive(PartialEq, Eq, Serialize, Deserialize)]
 #[cfg_attr(feature = "ssr", derive(FromRow))]
 pub struct Investor {
     pub i_user_id: String,
-    pub investor_type: String
+    pub investor_type: String,
 }
 
 #[derive(PartialEq, Serialize, Deserialize)]
@@ -44,27 +44,27 @@ pub struct ProjectAssociate {
     pub p_user_id: String,
     pub hourly_rate: Option<f32>,
     pub working_experience: Option<u32>,
-    pub associate_type: char
+    pub associate_type: char,
 }
 
 #[derive(PartialEq, Eq, Serialize, Deserialize)]
 #[cfg_attr(feature = "ssr", derive(FromRow))]
 pub struct ProjectManager {
-    pub m_p_user_id: String
+    pub m_p_user_id: String,
 }
 
 #[derive(PartialEq, Eq, Serialize, Deserialize)]
 #[cfg_attr(feature = "ssr", derive(FromRow))]
 pub struct ProjectContributor {
     pub c_p_user_id: String,
-    pub working_department: Option<String>
+    pub working_department: Option<String>,
 }
 
 #[derive(PartialEq, Eq, Serialize, Deserialize)]
 #[cfg_attr(feature = "ssr", derive(FromRow))]
 pub struct ProjectContributorSkill {
     pub c_p_user_id: String,
-    pub skill: String
+    pub skill: String,
 }
 
 #[derive(PartialEq, Serialize, Deserialize)]
@@ -83,7 +83,7 @@ pub struct Project {
     pub total_cost: Option<f32>,
     pub org_restricted: u8,
     pub m_p_user_id: Option<String>,
-    pub creation_date: DateTime<Utc>
+    pub creation_date: DateTime<Utc>,
 }
 
 #[derive(PartialEq, Serialize, Deserialize)]
@@ -93,7 +93,7 @@ pub struct InvestmentProposal {
     pub project_id: String,
     pub investment_amount: f32,
     pub proposal_date: DateTime<Utc>,
-    pub proposal_status: String
+    pub proposal_status: String,
 }
 
 #[derive(PartialEq, Serialize, Deserialize)]
@@ -102,7 +102,7 @@ pub struct InvestorInvest {
     pub i_user_id: String,
     pub project_id: String,
     pub investment_amount: f32,
-    pub investment_date: DateTime<Utc>
+    pub investment_date: DateTime<Utc>,
 }
 
 #[derive(PartialEq, Eq, Serialize, Deserialize)]
@@ -112,7 +112,7 @@ pub struct Collaboration {
     pub project_id: String,
     pub start_date: DateTime<Utc>,
     pub end_date: Option<DateTime<Utc>>,
-    pub role: String
+    pub role: String,
 }
 
 #[derive(PartialEq, Serialize, Deserialize)]
@@ -126,5 +126,5 @@ pub struct CollaborationTask {
     pub delivery_date: Option<DateTime<Utc>>,
     pub expected_hour: f32,
     pub hour_taken: Option<f32>,
-    pub expected_day: u8
+    pub expected_day: u8,
 }
