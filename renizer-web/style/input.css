@@ -2,3 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
+.card {
+    @apply rounded-lg bg-gradient-bgi shadow-purple hover:-translate-y-[.5em] hover:translate-x-[.5em] w-[20em] h-[12em] cursor-pointer;
+}

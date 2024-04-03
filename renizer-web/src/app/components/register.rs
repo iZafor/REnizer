@@ -1,8 +1,15 @@
 use leptos::*;
+use leptos_router::use_params_map;
 use super::*;
 
 #[component]
 pub fn Register() -> impl IntoView {
+    let user_type = move|| match use_params_map().with(|params| params.get("user-type").cloned()) {
+        Some(s) => s,
+        None => String::new()
+    };
+    println!("{}", user_type());
+
     view! {
         <section class="gradient-form h-screen bg-neutral-200 dark:bg-neutral-700 grid place-items-center">
             <div class="container h-full p-10">
@@ -32,7 +39,6 @@ pub fn Register() -> impl IntoView {
                                                     Email
                                                 </label>
                                             </div>
-
                                             <div class="relative mb-4" data-twe-input-wrapper-init>
                                                 <input
                                                     type="password"

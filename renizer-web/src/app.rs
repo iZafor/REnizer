@@ -13,20 +13,18 @@ pub fn App() -> impl IntoView {
     
     view! {
         <Title text="REnizer"/>
-        <Link rel="icon" href="/images/logo/icon.png"/> // logo
+        // logo
+        <Link rel="icon" href="/images/logo/icon.png"/>
         <GlobalStyle/>
         <Stylesheet id="leptos" href="/pkg/renizer-web.css"/>
 
-        <Router fallback=|| {
-            let mut outside_errors = Errors::default();
-            outside_errors.insert_with_default_key(AppError::NotFound);
-            view! { <ErrorTemplate outside_errors/> }.into_view()
-        }>
+        <Router fallback=|| view! { <NotFound/> }>
             <main>
                 <Routes>
                     <Route path="" view=HomePage/>
                     <Route path="/login" view=Login/>
-                    <Route path="/register" view=Register/>
+                    <Route path="/user-type" view=UserType/>
+                    <Route path="/register/:user-type" view=Register/>
                 </Routes>
             </main>
         </Router>
@@ -36,4 +34,12 @@ pub fn App() -> impl IntoView {
 #[component]
 fn HomePage() -> impl IntoView {
     view! { <h1>"Welcome to REnizer!"</h1> }
+}
+
+#[component]
+fn NotFound() -> impl IntoView {
+    let mut outside_errors = Errors::default();
+    outside_errors.insert_with_default_key(AppError::NotFound);
+
+    view! { <ErrorTemplate outside_errors/> }
 }

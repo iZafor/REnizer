@@ -15,7 +15,6 @@ pub fn Login() -> impl IntoView {
                                         <div class="grid place-items-center">
                                             <Logo/>
                                         </div>
-
                                         <form>
                                             <p class="mb-4">Please login to your account</p>
                                             <div class="relative mb-4" data-twe-input-wrapper-init>
@@ -73,7 +72,7 @@ pub fn Login() -> impl IntoView {
                                                     data-twe-ripple-color="light"
                                                     on:click=move |_| {
                                                         leptos_router::use_navigate()(
-                                                            "/register",
+                                                            "/user-type",
                                                             Default::default(),
                                                         );
                                                     }
