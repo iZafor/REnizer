@@ -15,7 +15,6 @@ pub fn App() -> impl IntoView {
         <Title text="REnizer"/>
         // logo
         <Link rel="icon" href="/images/logo/icon.png"/>
-        <GlobalStyle/>
         <Stylesheet id="leptos" href="/pkg/renizer-web.css"/>
 
         <Router fallback=|| view! { <NotFound/> }>
