@@ -26,7 +26,11 @@ git clone https://github.com/iZafor/REnizer/
 ```bash
 npm install
 ```
-4. Finally start the site
+4. Make sure css file is updated
+```bash
+npx tailwindcss -i style/input.css -o style/output.css
+```
+5. Finally start the server
 ```bash
 cargo leptos watch
 ```
