@@ -15,37 +15,18 @@ pub fn Login() -> impl IntoView {
                                         <div class="grid place-items-center">
                                             <Logo/>
                                         </div>
-                                        <form>
+                                        <form class="space-y-4">
                                             <p class="mb-4">Please login to your account</p>
-                                            <div class="relative mb-4" data-twe-input-wrapper-init>
-                                                <input
-                                                    type="text"
-                                                    class="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[twe-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-white dark:placeholder:text-neutral-300 dark:autofill:shadow-autofill dark:peer-focus:text-primary [&:not([data-twe-input-placeholder-active])]:placeholder:opacity-0"
-                                                    id="email"
-                                                    placeholder="Email"
-                                                />
-                                                <label
-                                                    for="email"
-                                                    class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[twe-input-state-active]:-translate-y-[0.9rem] peer-data-[twe-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-400 dark:peer-focus:text-primary"
-                                                >
-                                                    Email
-                                                </label>
-                                            </div>
 
-                                            <div class="relative mb-4" data-twe-input-wrapper-init>
-                                                <input
-                                                    type="password"
-                                                    class="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[twe-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-white dark:placeholder:text-neutral-300 dark:autofill:shadow-autofill dark:peer-focus:text-primary [&:not([data-twe-input-placeholder-active])]:placeholder:opacity-0"
-                                                    id="password"
-                                                    placeholder="Password"
-                                                />
-                                                <label
-                                                    for="password"
-                                                    class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[twe-input-state-active]:-translate-y-[0.9rem] peer-data-[twe-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-400 dark:peer-focus:text-primary"
-                                                >
-                                                    Password
-                                                </label>
-                                            </div>
+                                            <Input
+                                                label=String::from("Email")
+                                                type_=String::from("email")
+                                            />
+
+                                            <Input
+                                                label=String::from("Password")
+                                                type_=String::from("password")
+                                            />
 
                                             <div class="mb-12 pb-1 pt-1 text-center">
                                                 <button

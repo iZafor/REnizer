@@ -12,3 +12,6 @@ pub use register::*;
 
 pub mod user_type;
 pub use user_type::*;
+
+pub mod input;
+pub use input::*;
