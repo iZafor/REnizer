@@ -1,8 +1,10 @@
 use leptos::{html::Input, *};
+use wasm_bindgen::JsValue;
 
 #[component]
-pub fn Input(
+pub fn Input<T: Clone + Into<JsValue> + 'static>(
     label: String,
+    value: ReadSignal<T>,
     #[prop(default=String::from("text"))]
     type_: String,
     #[prop(into, default=Callback::new(|_| {}))]
@@ -19,6 +21,7 @@ pub fn Input(
                 type=type_
                 placeholder=label.clone()
                 class="peer h-full w-full border-b border-gray-200 bg-transparent pt-4 pb-1.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-gray-200 focus:border-gray-500 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 placeholder:opacity-0 focus:placeholder:opacity-100"
+                prop:value=value
                 on:input=on_input
                 on:change=on_change
                 _ref=node_ref

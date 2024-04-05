@@ -12,3 +12,6 @@ pub use user_type::*;
 
 pub mod input;
 pub use input::*;
+
+pub mod checkbox;
+pub use checkbox::*;

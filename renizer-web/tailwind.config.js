@@ -7,9 +7,11 @@ export default {
     extend: {
       colors: {
         "gradient-primary": "linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)",
+        "gradient-secondary": "linear-gradient(to right, #0f0c29, #302b63, #24243e)"
       },
       backgroundImage: {
-        "gradient-bgi": "linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)"
+        "gradient-bgi": "linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)",
+        "gradient-bgi-secondary": "linear-gradient(to right, #0f0c29, #302b63, #24243e)"
       },
       boxShadow: {
         "purple": "rgba(240, 46, 170, 0.4) -5px 5px, rgba(240, 46, 170, 0.3) -10px 10px, rgba(240, 46, 170, 0.2) -15px 15px, rgba(240, 46, 170, 0.1) -20px 20px, rgba(240, 46, 170, 0.05) -25px 25px"

@@ -3,6 +3,9 @@ use super::*;
 
 #[component]
 pub fn Login() -> impl IntoView {
+    let (email, _set_email) = create_signal("");
+    let (password, _set_password) = create_signal("");
+
     view! {
         <section class="roboto-regular gradient-form h-screen bg-neutral-200 dark:bg-neutral-700 flex justify-center items-center">
             <div class="container h-full p-10">
@@ -21,11 +24,13 @@ pub fn Login() -> impl IntoView {
                                             <Input
                                                 label=String::from("Email")
                                                 type_=String::from("email")
+                                                value=email
                                             />
 
                                             <Input
                                                 label=String::from("Password")
                                                 type_=String::from("password")
+                                                value=password
                                             />
 
                                             <div class="mb-12 pb-1 pt-1 text-center">
