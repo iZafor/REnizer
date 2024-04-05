@@ -113,7 +113,7 @@ pub fn Register() -> impl IntoView {
                                                         </Show>
 
                                                         <Show
-                                                            when=move|| matches!(user_type().as_str(), "investor")
+                                                            when=move || matches!(user_type().as_str(), "investor")
                                                             fallback=|| view! {}
                                                         >
                                                             <CheckBox
@@ -122,6 +122,7 @@ pub fn Register() -> impl IntoView {
                                                                     set_individual_investor.update(|v| *v = !*v);
                                                                 }
                                                             />
+
                                                         </Show>
 
                                                         <Show
@@ -134,6 +135,7 @@ pub fn Register() -> impl IntoView {
                                                                 when=move || {
                                                                     !matches!(user_type().as_str(), "investor" | "contributor")
                                                                 }
+
                                                                 fallback=|| view! {}
                                                             >
                                                                 <CheckBox
