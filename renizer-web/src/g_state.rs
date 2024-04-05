@@ -1,4 +1,7 @@
 use sqlx::{mysql::MySqlConnectOptions, *};
+use once_cell::sync::Lazy;
+
+pub static mut G_STATE: Lazy<GState> = Lazy::new(|| GState::default()); 
 
 pub struct GState {
     pub db_conn: Option<Pool<MySql>> 
@@ -34,10 +37,10 @@ pub struct DBConfig {
 impl DBConfig {
     pub fn new() -> Self {
         DBConfig {
-            host: option_env!("REnizer_DB_HOST").unwrap(),
-            port: option_env!("REnizer_DB_PORT").unwrap().parse().unwrap(),
-            username: option_env!("REnizer_DB_USER_NAME").unwrap(),
-            password: option_env!("REnizer_DB_USER_PASSWORD").unwrap(),
+            host: env!("REnizer_DB_HOST"),
+            port: env!("REnizer_DB_PORT").parse().unwrap(),
+            username: env!("REnizer_DB_USER_NAME"),
+            password: env!("REnizer_DB_USER_PASSWORD"),
             database: "REnizer"
         }
     }

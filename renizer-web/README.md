@@ -30,7 +30,14 @@ npm install
 ```bash
 npx tailwindcss -i style/input.css -o style/output.css
 ```
-5. Finally start the server
+5. Set required environment variables
+```bash
+REnizer_DB_HOST=db_host_ip_address
+REnizer_DB_PORT=port_number
+REnizer_DB_USER_NAME=username
+REnizer_DB_USER_PASSWORD=password_for_the_user
+```
+6. Finally start the server
 ```bash
 cargo leptos watch
 ```

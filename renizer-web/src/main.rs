@@ -6,11 +6,16 @@ async fn main() {
     use leptos_axum::{generate_route_list, LeptosRoutes};
     use renizer_web::app::*;
     use renizer_web::fileserv::file_and_error_handler;
+    use renizer_web::g_state::*;
 
     let conf = get_configuration(Some("./Cargo.toml")).await.unwrap();
     let leptos_options = conf.leptos_options;
     let addr = leptos_options.site_addr;
     let routes = generate_route_list(App);
+
+    unsafe {
+        G_STATE.db_conn.replace(GState::get_db_conn(DBConfig::new()).await.unwrap());
+    }
 
     let app = Router::new()
         .leptos_routes(&leptos_options, routes, App)
