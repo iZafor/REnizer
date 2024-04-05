@@ -198,7 +198,7 @@ pub fn Register() -> impl IntoView {
                                                             data-twe-ripple-init
                                                             data-twe-ripple-color="light"
                                                             on:click=move |_| {
-                                                                leptos_router::use_navigate()("/login", Default::default());
+                                                                leptos_router::use_navigate()("/", Default::default());
                                                             }
                                                         >
 
