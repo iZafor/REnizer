@@ -2,7 +2,7 @@ use super::*;
 
 #[derive(PartialEq, Serialize, Deserialize, Clone, Debug)]
 #[cfg_attr(feature = "ssr", derive(FromRow))]
-pub struct InvestorInvest {
+pub struct InvestorInvestProject {
     pub i_user_id: String,
     pub project_id: String,
     pub investment_amount: f32,

@@ -11,6 +11,6 @@ pub mod project_contributor;
 pub mod project_contributor_skill;
 pub mod project;
 pub mod investment_proposal;
-pub mod investor_invest;
+pub mod investor_invest_project;
 pub mod collaboration;
 pub mod collaboration_task;
