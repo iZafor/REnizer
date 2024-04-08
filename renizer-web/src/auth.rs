@@ -1,5 +1,5 @@
 use leptos::*;
-use crate::tables::User;
+use crate::tables::user::User;
 #[cfg(feature = "ssr")]
 use ssr::auth;
 

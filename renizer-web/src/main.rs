@@ -15,7 +15,7 @@ use leptos_axum::{
 
 use renizer_web::{
     auth::ssr::AuthSession,
-    tables::User,
+    tables::user::User,
     fileserv::file_and_error_handler,
     state::AppState,
     app::App
