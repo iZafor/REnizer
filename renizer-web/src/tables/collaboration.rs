@@ -23,9 +23,10 @@ mod ssr {
         start_date: DateTime<Utc>, 
         role: String) -> Result<Collaboration, ServerFnError> {
         if let Ok(Some(_)) = get_user().await {
-            Ok(sqlx::query_as("SELECT * FROM Collaboration_T WHERE p_user_id = ? AND project_id = ? AND role = ?")
+            Ok(sqlx::query_as("SELECT * FROM Collaboration_T WHERE p_user_id = ? AND project_id = ? start_date = ? AND role = ?")
                 .bind(p_user_id)
                 .bind(project_id)
+                .bind(start_date)
                 .bind(role)
                 .fetch_one(&pool()?)
                 .await?)
