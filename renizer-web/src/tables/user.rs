@@ -54,7 +54,8 @@ pub mod ssr {
 
     pub async fn insert_user(user: User) -> Result<MySqlQueryResult, ServerFnError> {
         if let Ok(Some(_)) = get_user().await {
-            Ok(sqlx::query("INSERT INTO User_T (user_id, first_name, last_name, email, contact_number, user_type, org_id) VALUES (SUBSTR(UUID(), 1, 8), ?, ?, ?, ?, ?, ?)")
+            Ok(sqlx::query("INSERT INTO User_T (user_id, first_name, last_name, email, contact_number, user_type, org_id) VALUES (?, ?, ?, ?, ?, ?, ?)")
+                .bind(user.user_id)
                 .bind(user.first_name)
                 .bind(user.last_name)
                 .bind(user.email)
