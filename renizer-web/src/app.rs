@@ -10,6 +10,8 @@ use leptos_router::*;
 pub fn App() -> impl IntoView {
     // Provides context that manages stylesheets, titles, meta tags, etc.
     provide_meta_context();
+
+    let login_action = Action::<Login, _>::server();
     
     view! {
         <Title text="REnizer"/>
@@ -21,7 +23,7 @@ pub fn App() -> impl IntoView {
             <main>
                 <Routes>
                     // <Route path="" view=HomePage/>
-                    <Route path="" view=Login/>
+                    <Route path="" view=move || view! { <Login action=login_action/> }/>
                     <Route path="/user-type" view=UserType/>
                     <Route path="/register/:user-type" view=Register/>
                 </Routes>

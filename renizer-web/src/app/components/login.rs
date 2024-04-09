@@ -1,8 +1,19 @@
 use leptos::*;
 use super::*;
+use leptos_router::*;
+use crate::tables::user;
+use serde::{Serialize, Deserialize};
+
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
+pub struct LoginData {
+    pub email: String,
+    pub password: String
+}
 
 #[component]
-pub fn Login() -> impl IntoView {
+pub fn Login(
+    action: Action<Login, Result<Option<user::User>, ServerFnError>>
+) -> impl IntoView {
     let (email, _set_email) = create_signal("");
     let (password, _set_password) = create_signal("");
 
@@ -18,25 +29,27 @@ pub fn Login() -> impl IntoView {
                                         <div class="grid place-items-center">
                                             <Logo/>
                                         </div>
-                                        <form class="space-y-4">
+                                        <ActionForm class="space-y-4" action=action>
                                             <p class="mb-4">Please login to your account</p>
 
                                             <Input
-                                                label=String::from("Email")
-                                                type_=String::from("email")
+                                                label="Email".into()
+                                                type_="email".into()
+                                                name="login_data[email]".into()
                                                 value=email
                                             />
 
                                             <Input
-                                                label=String::from("Password")
-                                                type_=String::from("password")
+                                                label="Password".into()
+                                                type_="password".into()
+                                                name="login_data[password]".into()
                                                 value=password
                                             />
 
                                             <div class="mb-12 pb-1 pt-1 text-center">
                                                 <button
                                                     class="mb-3 inline-block w-full rounded px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-dark-3 transition duration-150 ease-in-out hover:shadow-dark-2 focus:shadow-dark-2 focus:outline-none focus:ring-0 active:shadow-dark-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
-                                                    type="button"
+                                                    type="submit"
                                                     data-twe-ripple-init
                                                     data-twe-ripple-color="light"
                                                     style="
@@ -67,7 +80,7 @@ pub fn Login() -> impl IntoView {
                                                     Register
                                                 </button>
                                             </div>
-                                        </form>
+                                        </ActionForm>
                                     </div>
                                 </div>
 
@@ -89,4 +102,23 @@ pub fn Login() -> impl IntoView {
             </div>
         </section>
     }
+}
+
+#[server(Login)]
+pub async fn login(login_data: LoginData) -> Result<Option<user::User>, ServerFnError> {
+    use bcrypt::verify;
+    use crate::auth::ssr::auth;
+
+    if login_data.email.is_empty() || login_data.password.is_empty() {
+        return Err(ServerFnError::ServerError("email or password is missing".into()));
+    }
+
+    let user = user::ssr::get_user_with_email(login_data.email).await?;
+
+    Ok(verify(login_data.password, &user.password)?
+        .then_some({
+            auth()?.login_user(user.user_id.clone());
+            auth()?.remember_user(true);
+            user
+    }))
 }

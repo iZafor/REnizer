@@ -6,6 +6,7 @@ pub struct User {
     pub user_id: String,
     pub first_name: String,
     pub last_name: Option<String>,
+    pub password: String,
     pub email: String,
     pub contact_number: Option<String>,
     pub user_type: String,
@@ -13,7 +14,7 @@ pub struct User {
 }
 
 #[cfg(feature = "ssr")]
-mod ssr {
+pub mod ssr {
     use super::*;
     use leptos::leptos_server::ServerFnError;
     use sqlx::mysql::MySqlQueryResult;
