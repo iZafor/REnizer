@@ -56,9 +56,9 @@ pub fn Register(action: Action<Registration, Result<(), ServerFnError>>) -> impl
             when=move || !matches!(user_type().as_str(), "manager" | "contributor" | "investor")
             fallback=move || {
                 view! {
-                    <section class="gradient-form h-screen bg-neutral-200 dark:bg-neutral-700 grid place-items-center">
+                    <section class="gradient-form h-screen bg-gray-700 grid place-items-center">
                         <div class="container h-full p-10">
-                            <div class="flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200">
+                            <div class="flex h-full flex-wrap items-center justify-center text-light">
                                 <div class="w-full">
                                     <div class="block rounded-lg bg-white shadow-lg dark:bg-neutral-800">
                                         <ActionForm class="g-0 lg:flex lg:flex-wrap" action=action>
@@ -72,13 +72,13 @@ pub fn Register(action: Action<Registration, Result<(), ServerFnError>>) -> impl
                                                         <p class="mb-4">Please register an account</p>
 
                                                         <div class="flex flex-1 space-x-4">
-                                                            <Input 
-                                                                label="First Name".into() 
+                                                            <Input
+                                                                label="First Name".into()
                                                                 value=first_name
                                                                 name="re_data[first_name]".into()
                                                             />
-                                                            <Input 
-                                                                label="Last Name".into() 
+                                                            <Input
+                                                                label="Last Name".into()
                                                                 value=last_name
                                                                 name="re_data[last_name]".into()
                                                             />
@@ -91,8 +91,8 @@ pub fn Register(action: Action<Registration, Result<(), ServerFnError>>) -> impl
                                                             name="re_data[email]".into()
                                                         />
 
-                                                        <Input 
-                                                            label="Contact".into() 
+                                                        <Input
+                                                            label="Contact".into()
                                                             value=contact
                                                             name="re_data[contact]".into()
                                                         />
@@ -118,7 +118,7 @@ pub fn Register(action: Action<Registration, Result<(), ServerFnError>>) -> impl
                                                 class="rounded-b-lg lg:w-6/12 lg:rounded-e-lg lg:rounded-bl-none"
                                                 style="background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)"
                                             >
-                                                <div class="p-6 text-white md:mx-6 md:p-12 space-y-4">
+                                                <div class="p-6 text-light md:mx-6 md:p-12 space-y-4">
                                                     <div class="grid grid-cols-1 space-y-4">
                                                         <Show
                                                             when=move || {
@@ -224,7 +224,7 @@ pub fn Register(action: Action<Registration, Result<(), ServerFnError>>) -> impl
 
                                                     <div class="mb-12 pb-1 pt-1 text-center">
                                                         <button
-                                                            class="mb-3 border border-neutral-800 inline-block w-full rounded px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-dark-3 transition duration-150 ease-in-out hover:shadow-dark-2 focus:shadow-dark-2 focus:outline-none focus:ring-0 active:shadow-dark-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong bg-gradient-bgi-secondary"
+                                                            class="mb-3 border border-neutral-800 inline-block w-full rounded px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-light shadow-dark-3 transition duration-150 ease-in-out hover:shadow-dark-2 focus:shadow-dark-2 focus:outline-none focus:ring-0 active:shadow-dark-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong bg-gradient-bgi-secondary"
                                                             type="submit"
                                                             data-twe-ripple-init
                                                             data-twe-ripple-color="light"

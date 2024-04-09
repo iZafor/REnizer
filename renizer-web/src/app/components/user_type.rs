@@ -7,8 +7,8 @@ pub fn UserType() -> impl IntoView {
     };
 
     view! {
-        <section class="roboto-regular gradient-form h-screen bg-neutral-200 dark:bg-neutral-800 flex flex-col items-center justify-center space-y-14">
-            <p class="text-white text-6xl font-bold">Choose Your Role</p>
+        <section class="roboto-regular gradient-form h-screen bg-gray-700 flex flex-col items-center justify-center space-y-14">
+            <p class="text-light text-6xl font-bold">Choose Your Role</p>
             <section class="flex justify-center items-center space-x-8">
                 <div class="card" on:click=move |_| { navigate_to("manager") }>
                     <div class="flex flex-col space-y-1.5 p-4">
@@ -29,7 +29,7 @@ pub fn UserType() -> impl IntoView {
                         </svg>
                     </div>
                     <div class="p-4">
-                        <h3 class="text-2xl font-bold text-white">Manager</h3>
+                        <h3 class="text-2xl font-bold text-light">Manager</h3>
                         <p class="text-sm text-gray-500 dark:text-neutral-800">
                             Access to all areas
                         </p>
@@ -56,7 +56,7 @@ pub fn UserType() -> impl IntoView {
                         </svg>
                     </div>
                     <div class="p-4">
-                        <h3 class="text-2xl font-bold text-white">Contributor</h3>
+                        <h3 class="text-2xl font-bold text-light">Contributor</h3>
                         <p class="text-sm text-gray-500 dark:text-neutral-800">Limited access</p>
                     </div>
                 </div>
@@ -79,7 +79,7 @@ pub fn UserType() -> impl IntoView {
                         </svg>
                     </div>
                     <div class="p-4">
-                        <h3 class="text-2xl font-bold text-white">Investor</h3>
+                        <h3 class="text-2xl font-bold text-light">Investor</h3>
                         <p class="text-sm text-gray-500 dark:text-neutral-800">
                             Financial information
                         </p>

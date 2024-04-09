@@ -23,10 +23,14 @@ pub fn App() -> impl IntoView {
         <Router fallback=|| view! { <NotFound/> }>
             <main>
                 <Routes>
-                    // <Route path="" view=HomePage/>
-                    <Route path="" view=move || view! { <Login action=login_action/> }/>
-                    <Route path="/user-type" view=UserType/>
-                    <Route path="/register/:user-type" view=move|| view! { <Register action=register_action/> }/>
+                    <Route path="" view=HomePage>
+                        <Route path="" view=move || view! { <Login action=login_action/> }/>
+                        <Route path="/user-type" view=UserType/>
+                        <Route
+                            path="/register/:user-type"
+                            view=move || view! { <Register action=register_action/> }
+                        />
+                    </Route>
                 </Routes>
             </main>
         </Router>
@@ -36,7 +40,10 @@ pub fn App() -> impl IntoView {
 #[allow(unused)]
 #[component]
 fn HomePage() -> impl IntoView {
-    view! { <h1>"Welcome to REnizer!"</h1> }
+    view! {
+        <Navbar/>
+        <Outlet/>
+    }
 }
 
 #[component]

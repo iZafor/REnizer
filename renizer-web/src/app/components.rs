@@ -1,6 +1,9 @@
 pub mod logo;
 pub use logo::*;
 
+pub mod navbar;
+pub use navbar::*;
+
 pub mod login;
 pub use login::*;
 
