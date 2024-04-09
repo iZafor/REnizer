@@ -6,8 +6,8 @@ use sqlx::FromRow;
 #[cfg_attr(feature = "ssr", derive(FromRow))]
 pub struct ProjectAssociate {
     pub p_user_id: String,
-    pub hourly_rate: Option<f32>,
-    pub working_experience: Option<u32>,
+    pub hourly_rate: f32,
+    pub working_experience: u32,
     pub associate_type: String,
 }
 

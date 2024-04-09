@@ -1,9 +1,34 @@
 use leptos::*;
-use leptos_router::{use_params_map, Redirect};
+use leptos_router::{use_params_map, ActionForm, Redirect};
 use super::*;
+use serde::{Serialize, Deserialize};
+
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Clone, Default)]
+pub struct RegistrationData {
+    pub first_name: String,
+    pub last_name: String,
+    pub email: String,
+    pub contact: String,
+    pub password: String,
+    pub confirm_password: String,
+    #[serde(default)]
+    pub hourly_rate: String,
+    #[serde(default)]
+    pub working_experience: String,
+    #[serde(default)]
+    pub working_department: String,
+    #[serde(default)]
+    pub organization: String,
+    #[serde(default)]
+    pub organization_email: String,
+    #[serde(default)]
+    pub organization_contact: String,
+    #[serde(default)]
+    pub organization_location: String,
+}
 
 #[component]
-pub fn Register() -> impl IntoView {
+pub fn Register(action: Action<Registration, Result<(), ServerFnError>>) -> impl IntoView {
     let user_type = move|| match use_params_map().with(|params| params.get("user-type").cloned()) {
         Some(s) => s,
         None => String::new()
@@ -36,41 +61,56 @@ pub fn Register() -> impl IntoView {
                             <div class="flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200">
                                 <div class="w-full">
                                     <div class="block rounded-lg bg-white shadow-lg dark:bg-neutral-800">
-                                        <div class="g-0 lg:flex lg:flex-wrap">
+                                        <ActionForm class="g-0 lg:flex lg:flex-wrap" action=action>
                                             <div class="px-4 md:px-0 lg:w-6/12">
                                                 <div class="md:mx-6 md:p-12">
                                                     <div class="grid place-items-center">
                                                         <Logo/>
                                                     </div>
 
-                                                    <form class="space-y-4">
+                                                    <section class="space-y-4">
                                                         <p class="mb-4">Please register an account</p>
 
                                                         <div class="flex flex-1 space-x-4">
-                                                            <Input label=String::from("First Name") value=first_name/>
-                                                            <Input label=String::from("Last Name") value=last_name/>
+                                                            <Input 
+                                                                label="First Name".into() 
+                                                                value=first_name
+                                                                name="re_data[first_name]".into()
+                                                            />
+                                                            <Input 
+                                                                label="Last Name".into() 
+                                                                value=last_name
+                                                                name="re_data[last_name]".into()
+                                                            />
                                                         </div>
 
                                                         <Input
-                                                            label=String::from("Email")
-                                                            type_=String::from("email")
+                                                            label="Email".into()
+                                                            type_="email".into()
                                                             value=email
+                                                            name="re_data[email]".into()
                                                         />
 
-                                                        <Input label=String::from("Contact") value=contact/>
+                                                        <Input 
+                                                            label="Contact".into() 
+                                                            value=contact
+                                                            name="re_data[contact]".into()
+                                                        />
 
                                                         <Input
-                                                            label=String::from("Password")
-                                                            type_=String::from("password")
+                                                            label="Password".into()
+                                                            type_="password".into()
                                                             value=password
+                                                            name="re_data[password]".into()
                                                         />
 
                                                         <Input
-                                                            label=String::from("Confirm Password")
-                                                            type_=String::from("password")
+                                                            label="Confirm Password".into()
+                                                            type_="password".into()
                                                             value=confirm_password
+                                                            name="re_data[confirm_password]".into()
                                                         />
-                                                    </form>
+                                                    </section>
                                                 </div>
                                             </div>
 
@@ -88,17 +128,15 @@ pub fn Register() -> impl IntoView {
                                                             fallback=|| view! {}
                                                         >
                                                             <Input
-                                                                label=String::from("Hourly Rate")
+                                                                label="Hourly Rate".into()
                                                                 value=hourly_rate
-                                                                on_input=move |ev| {
-                                                                    let value = event_target_value(&ev);
-                                                                    logging::log!("{value}");
-                                                                }
+                                                                name="re_data[hourly_rate]".into()
                                                             />
 
                                                             <Input
-                                                                label=String::from("Working Experience")
+                                                                label="Working Experience".into()
                                                                 value=working_experience
+                                                                name="re_data[working_experience]".into()
                                                             />
 
                                                             <Show
@@ -106,8 +144,9 @@ pub fn Register() -> impl IntoView {
                                                                 fallback=|| view! {}
                                                             >
                                                                 <Input
-                                                                    label=String::from("Working Department")
+                                                                    label="Working Department".into()
                                                                     value=working_department
+                                                                    name="re_data[working_department]".into()
                                                                 />
                                                             </Show>
                                                         </Show>
@@ -117,7 +156,7 @@ pub fn Register() -> impl IntoView {
                                                             fallback=|| view! {}
                                                         >
                                                             <CheckBox
-                                                                label=String::from("Register as an individual investor?")
+                                                                label="Register as an individual investor?".into()
                                                                 on_click=move |_| {
                                                                     set_individual_investor.update(|v| *v = !*v);
                                                                 }
@@ -139,7 +178,7 @@ pub fn Register() -> impl IntoView {
                                                                 fallback=|| view! {}
                                                             >
                                                                 <CheckBox
-                                                                    label=String::from("Organization is already registered?")
+                                                                    label="Organization is already registered?".into()
                                                                     on_click=move |_| {
                                                                         set_org_registered.update(|v| *v = !*v);
                                                                     }
@@ -148,8 +187,9 @@ pub fn Register() -> impl IntoView {
                                                             </Show>
 
                                                             <Input
-                                                                label=String::from("Organization Name")
+                                                                label="Organization Name".into()
                                                                 value=organization
+                                                                name="re_data[organization]".into()
                                                             />
 
                                                             <Show
@@ -161,18 +201,21 @@ pub fn Register() -> impl IntoView {
                                                                 fallback=|| view! {}
                                                             >
                                                                 <Input
-                                                                    label=String::from("Organization Email")
+                                                                    label="Organization Email".into()
                                                                     value=organization_email
+                                                                    name="re_data[organization_email]".into()
                                                                 />
 
                                                                 <Input
-                                                                    label=String::from("Organization Contact")
+                                                                    label="Organization Contact".into()
                                                                     value=organization_contact
+                                                                    name="re_data[organization_contact]".into()
                                                                 />
 
                                                                 <Input
-                                                                    label=String::from("Organization Location")
+                                                                    label="Organization Location".into()
                                                                     value=organization_location
+                                                                    name="re_data[organization_location]".into()
                                                                 />
                                                             </Show>
                                                         </Show>
@@ -182,7 +225,7 @@ pub fn Register() -> impl IntoView {
                                                     <div class="mb-12 pb-1 pt-1 text-center">
                                                         <button
                                                             class="mb-3 border border-neutral-800 inline-block w-full rounded px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-dark-3 transition duration-150 ease-in-out hover:shadow-dark-2 focus:shadow-dark-2 focus:outline-none focus:ring-0 active:shadow-dark-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong bg-gradient-bgi-secondary"
-                                                            type="button"
+                                                            type="submit"
                                                             data-twe-ripple-init
                                                             data-twe-ripple-color="light"
                                                         >
@@ -207,7 +250,7 @@ pub fn Register() -> impl IntoView {
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </ActionForm>
                                     </div>
                                 </div>
                             </div>
@@ -220,4 +263,99 @@ pub fn Register() -> impl IntoView {
             <Redirect path="/user-type"/>
         </Show>
     }
+}
+
+#[server(Registration)]
+pub async fn registration(re_data: RegistrationData) -> Result<(), ServerFnError> {
+    use crate::{ex::ReqInfo, 
+        tables::{user, investor, project_manager, project_contributor, project_associate, organization},
+        auth::ssr::pool
+    };
+    use leptos::use_context;
+    use bcrypt::{hash, DEFAULT_COST};
+    use uuid::Uuid;
+
+    let req_url = use_context::<ReqInfo>().unwrap().url;
+    let user_type = req_url.rsplit_once("/").unwrap_or_default().1;
+
+    if !matches!(user_type, "investor" | "manager" | "contributor") {
+        return Err(ServerFnError::ServerError("Invalid user type!".into()))
+    }
+
+    let user_t = if user_type == "investor" { "I" } else { "P" };
+    let mut user_id = Uuid::new_v4().to_string();
+    user_id.truncate(8);
+
+    let mut user = user::User {
+        user_id: user_id.clone(),
+        first_name: re_data.first_name.clone(),
+        last_name: (!re_data.last_name.is_empty()).then_some(re_data.last_name.clone()),
+        password: hash(re_data.password.clone(), DEFAULT_COST)?,
+        email: re_data.email.clone(),
+        contact_number: (!re_data.contact.is_empty()).then_some(re_data.contact.clone()),
+        user_type: user_t.into(),
+        // organization_email remains empty as long as the organization doesn't exist already 
+        org_id: re_data.organization_email.is_empty().then_some(
+            sqlx::query_as::<_, organization::Organization>("SELECT * FROM Organization_T WHERE name = ")
+                .bind(re_data.organization.clone())
+                .fetch_one(&pool()?)
+                .await?
+                .org_id
+        )
+    };
+
+    if !re_data.organization_email.is_empty() {
+        let mut org_id = Uuid::new_v4().to_string();
+        org_id.truncate(8);
+        let org = organization::Organization {
+            org_id: org_id.clone(),
+            name: re_data.organization.clone(),
+            email: Some(re_data.organization_email.clone()),
+            location: (!re_data.organization_location.is_empty()).then_some(re_data.organization_location.clone()) 
+        };
+        user.org_id = Some(org_id.clone());
+        organization::ssr::insert_organization(org).await?;
+    }
+
+    // insert user
+    user::ssr::insert_user(user).await?;
+
+    if user_type == "investor" {
+        let mut investor = investor::Investor {
+            i_user_id: user_id,
+            investor_type: "".into()
+        };
+
+        if !re_data.organization.is_empty() {
+            investor.investor_type = "Corporate".into(); 
+        }
+
+        investor::ssr::insert_investor(investor).await?;
+    } else {
+        let mut associate = project_associate::ProjectAssociate {
+            p_user_id: user_id.clone(),
+            working_experience: re_data.working_experience.parse::<u32>().unwrap_or_default(),   
+            hourly_rate: re_data.hourly_rate.parse::<f32>().unwrap_or_default(),
+            associate_type: "".into(),
+        };
+
+        if user_type == "manager" {
+            let manager = project_manager::ProjectManager {
+                m_p_user_id: user_id.clone()
+            };
+            associate.associate_type = "M".into();
+            project_associate::ssr::insert_project_associate(associate).await?;
+            project_manager::ssr::insert_project_manager(manager).await?;
+        }else {
+            let contributor = project_contributor::ProjectContributor {
+                c_p_user_id: user_id.clone(),
+                working_department: re_data.working_department
+            };
+            associate.associate_type = "C".into();
+            project_associate::ssr::insert_project_associate(associate).await?;
+            project_contributor::ssr::insert_project_contributor(contributor).await?;
+        }
+    }
+
+    Ok(())
 }

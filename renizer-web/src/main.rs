@@ -18,7 +18,8 @@ use renizer_web::{
     tables::user::User,
     fileserv::file_and_error_handler,
     state::AppState,
-    app::App
+    app::App,
+    ex::ReqInfo
 };
 use sqlx::{mysql::{MySqlPoolOptions, MySqlConnectOptions}, MySqlPool};
 
@@ -29,11 +30,18 @@ async fn server_fn_handler(
     request: Request<AxumBody>,
 ) -> impl IntoResponse {
     log!("{:?}", path);
+    
+    let referer = match request.headers().get(axum::http::header::REFERER) {
+        None => "".into(),
+        Some(val) => val.to_str().unwrap_or_default().to_owned()
+    };
+    let info = ReqInfo {url: referer};
 
     handle_server_fns_with_context(
         move || {
             provide_context(auth_session.clone());
             provide_context(app_state.pool.clone());
+            provide_context(info.clone());
         },
         request,
     )

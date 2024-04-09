@@ -12,6 +12,7 @@ pub fn App() -> impl IntoView {
     provide_meta_context();
 
     let login_action = Action::<Login, _>::server();
+    let register_action = Action::<Registration, _>::server();
     
     view! {
         <Title text="REnizer"/>
@@ -25,7 +26,7 @@ pub fn App() -> impl IntoView {
                     // <Route path="" view=HomePage/>
                     <Route path="" view=move || view! { <Login action=login_action/> }/>
                     <Route path="/user-type" view=UserType/>
-                    <Route path="/register/:user-type" view=Register/>
+                    <Route path="/register/:user-type" view=move|| view! { <Register action=register_action/> }/>
                 </Routes>
             </main>
         </Router>
