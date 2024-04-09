@@ -11,7 +11,7 @@ pub struct Collaboration {
 }
 
 #[cfg(feature = "ssr")]
-mod ssr {
+pub mod ssr {
     use super::*;
     use leptos::leptos_server::ServerFnError;
     use sqlx::mysql::MySqlQueryResult;
