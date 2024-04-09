@@ -17,7 +17,7 @@ pub mod ssr {
     #[async_trait]
     impl Authentication<User, String, MySqlPool> for User {
         async fn load_user(userid: String, pool: Option<&MySqlPool>) -> Result<User, Error> {
-            Ok(query_as("SELECT * FROM User_T WHERE id = ?")
+            Ok(query_as("SELECT * FROM User_T WHERE user_id = ?")
                 .bind(userid)
                 .fetch_one(pool.unwrap())
                 .await?

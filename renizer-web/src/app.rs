@@ -1,10 +1,13 @@
 mod components;
 
-use crate::error_template::{AppError, ErrorTemplate};
+use crate::{auth::{get_user, Logout}, error_template::{AppError, ErrorTemplate}};
 use components::*;
 use leptos::*;
 use leptos_meta::*;
 use leptos_router::*;
+use crate::tables::user::User;
+
+pub type UserCtx = Resource<(usize, usize, usize), Result<Option<User>, ServerFnError>>;
 
 #[component]
 pub fn App() -> impl IntoView {
@@ -13,7 +16,20 @@ pub fn App() -> impl IntoView {
 
     let login_action = Action::<Login, _>::server();
     let register_action = Action::<Registration, _>::server();
+    let logout_action = Action::<Logout, _>::server();
     
+    let user = create_local_resource(
+        move || (
+            login_action.version().get(),
+            register_action.version().get(),
+            logout_action.version().get()
+        ),
+        move |_| get_user() 
+    );
+
+    provide_context(user);
+    provide_context(logout_action);
+
     view! {
         <Title text="REnizer"/>
         // logo

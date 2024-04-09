@@ -105,18 +105,22 @@ pub fn Login(
 #[server(Login)]
 pub async fn login(login_data: LoginData) -> Result<Option<user::User>, ServerFnError> {
     use bcrypt::verify;
-    use crate::auth::ssr::auth;
+    use crate::auth::ssr::{auth, pool};
 
     if login_data.email.is_empty() || login_data.password.is_empty() {
         return Err(ServerFnError::ServerError("email or password is missing".into()));
     }
 
-    let user = user::ssr::get_user_with_email(login_data.email).await?;
+    let user: user::User = sqlx::query_as("SELECT * FROM User_T WHERE email = ?")
+        .bind(login_data.email.clone())
+        .fetch_one(&pool()?)
+        .await?;
 
     Ok(verify(login_data.password, &user.password)?
         .then_some({
             auth()?.login_user(user.user_id.clone());
             auth()?.remember_user(true);
+            logging::log!("Verified user: {user:?}");
             user
     }))
 }
