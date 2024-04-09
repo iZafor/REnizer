@@ -39,11 +39,7 @@ pub mod ssr {
         }
     } 
 
-    pub async fn get_all_collaboration_tasks(
-        p_user_id: String,
-        project_id: String,
-        task_name: String, 
-        assigned_date: DateTime<Utc>) -> Result<Vec<CollaborationTask>, ServerFnError> {
+    pub async fn get_all_collaboration_tasks() -> Result<Vec<CollaborationTask>, ServerFnError> {
         if let Ok(Some(_)) = get_user().await {
             Ok(sqlx::query_as("SELECT * FROM Collaboration_Task_T")
                 .fetch_all(&pool()?)

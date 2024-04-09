@@ -42,7 +42,7 @@ pub mod ssr {
         }
     }
 
-    pub async fn get_all_users(user: User) -> Result<Vec<User>, ServerFnError> {
+    pub async fn get_all_users() -> Result<Vec<User>, ServerFnError> {
         if let Ok(Some(_)) = get_user().await {
             Ok(sqlx::query_as("SELECT * FROM User_T")
                 .fetch_all(&pool()?)
