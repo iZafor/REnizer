@@ -18,3 +18,9 @@ pub use input::*;
 
 pub mod checkbox;
 pub use checkbox::*;
+
+pub mod project_view;
+pub use project_view::*;
+
+pub mod task_row;
+pub use task_row::*;

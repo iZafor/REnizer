@@ -87,7 +87,9 @@ pub fn Login(
                                     style="background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)"
                                 >
                                     <div class="w-full text-center animate-slidein">
-                                        <h4 class="mb-2 text-8xl font-bold text-light">Welcome to REnizer,</h4>
+                                        <h4 class="mb-2 text-8xl font-bold text-light">
+                                            Welcome to REnizer,
+                                        </h4>
                                         <p class="text-xl text-dark">
                                             where innovation meets sustainability
                                         </p>

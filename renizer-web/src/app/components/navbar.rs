@@ -12,24 +12,30 @@ pub fn Navbar() -> impl IntoView {
     view! {
         <nav class="flex h-16 w-full items-center border-b border-gray-200/50 backdrop-filter bg-dark">
             <a class="flex items-center gap-2 px-4 md:px-6" href="/">
-                <Logo height="140px".into() width="140px".into() />
+                <Logo height="140px".into() width="140px".into()/>
             </a>
 
             <Show
-                when=move|| !matches!(user_ctx.get(), Some(Ok(Some(_))))
-                fallback=move || view! {
-                    <button 
-                    class="btn m-auto mr-5 relative inline-flex items-center justify-start overflow-hidden font-medium transition-all bg-dark rounded hover:bg-white group py-1.5 px-6"
-                    on:click=move|_| {
-                        logout_action.dispatch(Logout {});
-                        use_navigate()("", Default::default());
+                when=move || !matches!(user_ctx.get(), Some(Ok(Some(_))))
+                fallback=move || {
+                    view! {
+                        <button
+                            class="btn m-auto mr-5 relative inline-flex items-center justify-start overflow-hidden font-medium transition-all bg-dark rounded hover:bg-white group py-1.5 px-6"
+                            on:click=move |_| {
+                                logout_action.dispatch(Logout {});
+                                use_navigate()("", Default::default());
+                            }
+                        >
+
+                            <span class="w-56 h-48 rounded bg-gray-900 absolute bottom-0 left-0 translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
+                            <span class="relative text-light text-2xl cursor-pointer transition-all ease-in-out before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-gray-50 before:origin-center before:h-[3px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-gray-50 after:origin-center after:h-[3px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%]">
+                                Logout
+                            </span>
+                        </button>
                     }
-                    >
-                        <span class="w-56 h-48 rounded bg-gray-900 absolute bottom-0 left-0 translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
-                        <span class="relative text-light text-2xl cursor-pointer transition-all ease-in-out before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-gray-50 before:origin-center before:h-[3px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-gray-50 after:origin-center after:h-[3px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%]">Logout</span>
-                    </button>
                 }
             >
+
                 <div class="flex-1 flex items-center justify-between gap-4 mx-4 md:mx-6">
                     <div class="flex justify-center gap-4 text-base font-medium not-italic tabular-nums">
                         <a

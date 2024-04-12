@@ -46,6 +46,7 @@ pub fn App() -> impl IntoView {
                             path="/register/:user-type"
                             view=move || view! { <Register action=register_action/> }
                         />
+                        <Route path="/project/:project-id" view=ProjectView/>
                     </Route>
                 </Routes>
             </main>
