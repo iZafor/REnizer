@@ -4,7 +4,7 @@ use serde::{Serialize, Deserialize};
 use chrono::{DateTime, Utc};
 use rust_decimal::Decimal;
 use uuid::Uuid;
-use crate::{app::components::RoleRow, tables::collaboration_task::CollaborationTask};
+use crate::{app::components::*, tables::collaboration_task::CollaborationTask};
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 #[cfg_attr(feature = "ssr", derive(sqlx::FromRow))]
@@ -47,6 +47,7 @@ pub fn ProjectView() -> impl IntoView {
 
     let (roles, set_roles) = create_signal(vec![]); 
     let (tasks, set_tasks) = create_signal(vec![]);
+    let (show_add_role, set_show_add_role) = create_signal(false);
 
     let project = create_resource(
         project_id,
@@ -114,15 +115,21 @@ pub fn ProjectView() -> impl IntoView {
                                                         <div class="flex items-center space-x-4">
                                                             <span class="flex items-center space-x-2">
                                                                 <p>Contributors</p>
-                                                                <p class="text-sm bg-gray-500 px-2 rounded-md">{project.n_contributors}</p>
+                                                                <p class="text-sm bg-gray-500 px-2 rounded-md">
+                                                                    {project.n_contributors}
+                                                                </p>
                                                             </span>
                                                             <span class="flex items-center space-x-2">
                                                                 <p>Investors</p>
-                                                                <p class="text-sm bg-gray-500 px-2 rounded-md">{project.n_investors}</p>
+                                                                <p class="text-sm bg-gray-500 px-2 rounded-md">
+                                                                    {project.n_investors}
+                                                                </p>
                                                             </span>
                                                             <span class="flex items-center space-x-2">
                                                                 <p>In-total Tasks</p>
-                                                                <p class="text-sm bg-gray-500 px-2 rounded-md">{project.n_tasks}</p>
+                                                                <p class="text-sm bg-gray-500 px-2 rounded-md">
+                                                                    {project.n_tasks}
+                                                                </p>
                                                             </span>
                                                             <span class="flex items-center space-x-2">
                                                                 <p>Project Cost</p>
@@ -134,7 +141,9 @@ pub fn ProjectView() -> impl IntoView {
                                                         <div class="flex items-center space-x-4">
                                                             <span class="flex items-center space-x-2">
                                                                 <p>Project Created at</p>
-                                                                <p class="text-sm bg-gray-500 px-2 rounded-md">{project.creation_date.to_string()}</p>
+                                                                <p class="text-sm bg-gray-500 px-2 rounded-md">
+                                                                    {project.creation_date.to_string()}
+                                                                </p>
                                                             </span>
                                                             <span class="flex items-center space-x-2">
                                                                 <p>Project Started at</p>
@@ -168,7 +177,10 @@ pub fn ProjectView() -> impl IntoView {
                                                                 </div>
                                                             </a>
                                                         </div>
-                                                        <button class="text-dark hover:text-light bg-light mt-4 inline-flex items-start justify-start rounded px-6 py-3 hover:bg-gray-500 focus:outline-none focus:ring-2 sm:mt-0">
+                                                        <button
+                                                            on:click=move |_| { set_show_add_role(true) }
+                                                            class="text-dark hover:text-light bg-light mt-4 inline-flex items-start justify-start rounded px-6 py-3 hover:bg-gray-500 focus:outline-none focus:ring-2 sm:mt-0"
+                                                        >
                                                             <p class="text-sm font-medium leading-none">Add Role</p>
                                                         </button>
                                                     </div>
@@ -183,6 +195,9 @@ pub fn ProjectView() -> impl IntoView {
                                                             </tbody>
                                                         </table>
                                                     </div>
+                                                    <Show when=show_add_role>
+                                                        <AddRoleForm on_close=move |_| set_show_add_role(false)/>
+                                                    </Show>
                                                 </div>
                                             </div>
                                         }

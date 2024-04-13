@@ -9,7 +9,9 @@ pub fn RoleRow(rd: RoleRowData) -> impl IntoView {
         <tr tabindex="0" class="h-16 rounded border border-gray-100 focus:outline-none text-light">
             <td class="">
                 <div class="flex items-center pl-5 space-x-2">
-                    <p class="text-light mr-2 text-base font-medium leading-none">{rd.role.clone()}</p>
+                    <p class="text-light mr-2 text-base font-medium leading-none">
+                        {rd.role.clone()}
+                    </p>
                 </div>
             </td>
             <td class="pl-5">
@@ -23,19 +25,25 @@ pub fn RoleRow(rd: RoleRowData) -> impl IntoView {
             <td class="pl-5">
                 <div class="flex items-center">
                     <p>Total Tasks</p>
-                    <p class="text-light ml-2 text-sm leading-none bg-gray-500 px-2 py-1 rounded-md">{rd.n_tasks}</p>
+                    <p class="text-light ml-2 text-sm leading-none bg-gray-500 px-2 py-1 rounded-md">
+                        {rd.n_tasks}
+                    </p>
                 </div>
             </td>
             <td class="pl-5">
                 <div class="flex items-center">
                     <p>Hourly Rate</p>
-                    <p class="text-light ml-2 text-sm leading-none bg-gray-500 px-2 py-1 rounded-md">{rd.hourly_rate.to_string()}</p>
+                    <p class="text-light ml-2 text-sm leading-none bg-gray-500 px-2 py-1 rounded-md">
+                        {rd.hourly_rate.to_string()}
+                    </p>
                 </div>
             </td>
             <td class="pl-5">
                 <div class="flex items-center">
                     <p>Start Date</p>
-                    <p class="text-light ml-2 text-sm leading-none bg-gray-500 px-2 py-1 rounded-md">{rd.start_date.to_string()}</p>
+                    <p class="text-light ml-2 text-sm leading-none bg-gray-500 px-2 py-1 rounded-md">
+                        {rd.start_date.to_string()}
+                    </p>
                 </div>
             </td>
             <td class="pl-5">
@@ -44,19 +52,21 @@ pub fn RoleRow(rd: RoleRowData) -> impl IntoView {
                 </button>
             </td>
             <td class="pl-4">
-                <button 
+                <button
                     class="bg-light text-dark rounded px-5 py-3 text-sm leading-none hover:bg-gray-200 focus:outline-none"
-                    on:click=move|_| { set_show_table(true) }
+                    on:click=move |_| { set_show_table(true) }
                 >
                     View
                 </button>
             </td>
         </tr>
         <tr class="h-3"></tr>
-        <Show
-            when=show_task_table
-        >
-            <TaskTable p_user_id=rd.p_user_id.clone() role=rd.role.clone() on_close=move|_| { set_show_table(false) } />
+        <Show when=show_task_table>
+            <TaskTable
+                p_user_id=rd.p_user_id.clone()
+                role=rd.role.clone()
+                on_close=move |_| { set_show_table(false) }
+            />
         </Show>
     }
 }

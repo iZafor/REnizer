@@ -27,3 +27,6 @@ pub use role_row::*;
 
 pub mod task_table;
 pub use task_table::*;
+
+pub mod add_role_form;
+pub use add_role_form::*;
