@@ -1,3 +1,5 @@
+use rust_decimal::Decimal;
+
 use super::*;
 
 #[derive(PartialEq, Serialize, Deserialize, Clone, Debug)]
@@ -9,9 +11,9 @@ pub struct CollaborationTask {
     pub assigned_date: DateTime<Utc>,
     pub start_date: DateTime<Utc>,
     pub delivery_date: Option<DateTime<Utc>>,
-    pub expected_hour: f32,
-    pub hour_taken: Option<f32>,
-    pub expected_day: u8,
+    pub expected_hour: Decimal,
+    pub hour_taken: Option<Decimal>,
+    pub expected_day: Decimal,
 }
 
 #[cfg(feature = "ssr")]
@@ -38,6 +40,17 @@ pub mod ssr {
             Err(ServerFnError::ServerError("User is not logged in!".into()))
         }
     } 
+
+    pub async fn get_matching_collaboration_tasks(
+        condition: String
+    ) -> Result<Vec<CollaborationTask>, ServerFnError> {
+        Ok(sqlx::query_as(&format!(r#"
+            SELECT *
+            FROM Collaboration_Task_T
+            WHERE {condition}
+        "#)).fetch_all(&pool()?)
+            .await?)
+    }
 
     pub async fn get_all_collaboration_tasks() -> Result<Vec<CollaborationTask>, ServerFnError> {
         if let Ok(Some(_)) = get_user().await {

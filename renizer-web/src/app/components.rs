@@ -22,5 +22,8 @@ pub use checkbox::*;
 pub mod project_view;
 pub use project_view::*;
 
-pub mod task_row;
-pub use task_row::*;
+pub mod role_row;
+pub use role_row::*;
+
+pub mod task_table;
+pub use task_table::*;
