@@ -1,4 +1,5 @@
 use serde::{Serialize, Deserialize};
+use rust_decimal::Decimal;
 #[cfg(feature = "ssr")]
 use sqlx::FromRow;
 
@@ -6,8 +7,8 @@ use sqlx::FromRow;
 #[cfg_attr(feature = "ssr", derive(FromRow))]
 pub struct ProjectAssociate {
     pub p_user_id: String,
-    pub hourly_rate: f32,
-    pub working_experience: u32,
+    pub hourly_rate: Decimal,
+    pub working_experience: Decimal,
     pub associate_type: String,
 }
 
