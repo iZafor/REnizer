@@ -47,7 +47,7 @@ pub mod ssr {
 
     pub async fn insert_collaboration(collaboration: Collaboration) -> Result<MySqlQueryResult, ServerFnError> {
         if let Ok(Some(_)) = get_user().await {
-            Ok(sqlx::query("INSERT INTO Collaboration_T (p_user_id, project_id, start_date, end_date, role)")
+            Ok(sqlx::query("INSERT INTO Collaboration_T (p_user_id, project_id, start_date, end_date, role) VALUES (?, ?, ?, ?, ?)")
                 .bind(collaboration.p_user_id)
                 .bind(collaboration.project_id)
                 .bind(collaboration.start_date)

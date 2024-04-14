@@ -84,7 +84,9 @@ pub fn ProjectView() -> impl IntoView {
         }  
     );
 
+    provide_context(set_roles);
     provide_context(tasks);
+    provide_context(set_tasks);
 
     view! {
         <Show
@@ -190,14 +192,22 @@ pub fn ProjectView() -> impl IntoView {
                                                                 <For
                                                                     each=roles
                                                                     key=move |(id, _)| id.clone()
-                                                                    children=move |(_, rd)| view! { <RoleRow rd/> }
+                                                                    children=move |(_, rd)| view! { 
+                                                                        <RoleRow rd=rd.clone()/> 
+                                                                        <Show
+                                                                             when=show_add_role
+                                                                        >
+                                                                            <AddRoleForm 
+                                                                                p_user_id=rd.p_user_id.clone()
+                                                                                project_id=project_id()
+                                                                                on_close=move |_| set_show_add_role(false)
+                                                                            />
+                                                                        </Show>
+                                                                    }
                                                                 />
                                                             </tbody>
                                                         </table>
                                                     </div>
-                                                    <Show when=show_add_role>
-                                                        <AddRoleForm on_close=move |_| set_show_add_role(false)/>
-                                                    </Show>
                                                 </div>
                                             </div>
                                         }

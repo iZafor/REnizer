@@ -15,7 +15,9 @@ pub fn Input<T: Clone + Into<JsValue> + 'static>(
     on_change: Callback<ev::Event>,
     #[allow(unused)]
     #[prop(optional)]
-    node_ref: NodeRef<Input>
+    node_ref: NodeRef<Input>,
+    #[prop(optional)]
+    min: String
 ) -> impl IntoView {
     view! {
         <div class="relative h-11 w-full">
@@ -28,6 +30,7 @@ pub fn Input<T: Clone + Into<JsValue> + 'static>(
                 on:input=on_input
                 on:change=on_change
                 _ref=node_ref
+                min=min
             />
             <label class="after:content[''] pointer-events-none absolute left-0  -top-1.5 flex h-full w-full select-none !overflow-visible truncate text-[11px] font-normal leading-tight text-light transition-all after:absolute after:-bottom-1.5 after:block after:w-full after:scale-x-0 after:border-b-2 after:border-gray-500 after:transition-transform after:duration-300 peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[4.25] peer-placeholder-shown:text-white peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-white peer-focus:after:scale-x-100 peer-focus:after:border-blue-gray-900 peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-white">
                 {label}
