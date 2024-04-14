@@ -22,6 +22,6 @@ Using the `EERD` we have developed the following `Relational Schema`.
 
 <hr>
 
-To run the project locally please follow the steps provided inside the [renizer-readme](renizer-web/README.md).
+To run the project locally please follow the steps provided inside the [renizer-web-readme](renizer-web/README.md).
 
 `Note:` This project is still under development. Most of the features are still missing. 
