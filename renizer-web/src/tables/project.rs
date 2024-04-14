@@ -53,9 +53,10 @@ pub mod ssr {
         }
     }   
 
-    pub async fn insert_project_contributor(project: Project) -> Result<MySqlQueryResult, ServerFnError> {
+    pub async fn insert_project(project: Project) -> Result<MySqlQueryResult, ServerFnError> {
         if let Ok(Some(_)) = get_user().await {
-            Ok(sqlx::query("INSERT INTO Project_Contributor_Skill_T (project_id, name, description, location, start_date, end_date, status, energy_rate_kwh, produced_energy_kwh, energy_sold_kwh, total_cost, org_restricted, m_p_user_id, creation_date) VALUES (SUBSTR(UUID(), 1, 8), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
+            Ok(sqlx::query("INSERT INTO Project_T (project_id, name, description, location, start_date, end_date, status, energy_rate_kwh, produced_energy_kwh, energy_sold_kwh, total_cost, org_restricted, m_p_user_id, creation_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
+                .bind(project.project_id)
                 .bind(project.name)
                 .bind(project.description)
                 .bind(project.location)

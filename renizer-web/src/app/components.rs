@@ -30,3 +30,5 @@ pub use task_table::*;
 
 pub mod add_role_form;
 pub use add_role_form::*;
+
+pub mod new_project_form;
