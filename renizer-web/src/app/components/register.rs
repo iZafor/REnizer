@@ -1,5 +1,5 @@
 use leptos::*;
-use leptos_router::{use_params_map, ActionForm, Redirect};
+use leptos_router::{use_params_map, Redirect, FromFormData};
 use super::*;
 use serde::{Serialize, Deserialize};
 
@@ -34,22 +34,43 @@ pub fn Register(action: Action<Registration, Result<(), ServerFnError>>) -> impl
         None => String::new()
     };
 
-    let (first_name, _set_first_name) = create_signal("");
-    let (last_name, _set_last_name) = create_signal("");
-    let (email, _set_email) = create_signal("");
-    let (contact, _set_contact) = create_signal("");
-    let (password, _set_password) = create_signal("");
-    let (confirm_password, _set_confirm_password) = create_signal("");
-    let (hourly_rate, _set_hourly_rate) = create_signal("");
-    let (working_experience, _set_working_experience) = create_signal("");
-    let (working_department, _set_working_department) = create_signal("");
-    let (organization, _set_organization) = create_signal("");
-    let (organization_email, _set_organization_email) = create_signal("");
-    let (organization_contact, _set_organization_contact) = create_signal("");
-    let (organization_location, _set_organization_location) = create_signal("");
+    let (first_name, set_first_name) = create_signal("");
+    let (last_name, set_last_name) = create_signal("");
+    let (email, set_email) = create_signal("");
+    let (contact, set_contact) = create_signal("");
+    let (password, set_password) = create_signal("");
+    let (confirm_password, set_confirm_password) = create_signal("");
+    let (hourly_rate, set_hourly_rate) = create_signal("");
+    let (working_experience, set_working_experience) = create_signal("");
+    let (working_department, set_working_department) = create_signal("");
+    let (organization, set_organization) = create_signal("");
+    let (organization_email, set_organization_email) = create_signal("");
+    let (organization_contact, set_organization_contact) = create_signal("");
+    let (organization_location, set_organization_location) = create_signal("");
 
     let (org_registered, set_org_registered) = create_signal(false);
     let (individual_investor, set_individual_investor) = create_signal(false);
+
+    let _ = create_local_resource(action.value(), move|res| async move {
+        if let Some(Ok(_)) = res {
+            set_first_name("");
+            set_last_name("");
+            set_email("");
+            set_password("");
+            set_confirm_password("");
+            set_contact("");
+            set_hourly_rate("");
+            set_working_department("");
+            set_organization("");
+            set_working_experience("");
+            set_organization_contact("");
+            set_organization_email("");
+            set_organization_location("");
+            set_org_registered(false);
+            set_individual_investor(false);
+            leptos_router::use_navigate()("/", Default::default());
+        }
+    });
 
     view! {
         <Show
@@ -61,7 +82,14 @@ pub fn Register(action: Action<Registration, Result<(), ServerFnError>>) -> impl
                             <div class="flex h-full flex-wrap items-center justify-center text-light">
                                 <div class="w-full">
                                     <div class="block rounded-lg bg-white shadow-lg dark:bg-neutral-800">
-                                        <ActionForm class="g-0 lg:flex lg:flex-wrap" action=action>
+                                        <form class="g-0 lg:flex lg:flex-wrap" on:submit=move|ev| {
+                                            ev.prevent_default();
+                                            let data = RegistrationData::from_event(&ev);
+                                            if let Ok(re_data) = data {
+                                                action.dispatch(Registration { re_data });
+                                            }
+                                        }
+                                            >
                                             <div class="px-4 md:px-0 lg:w-6/12">
                                                 <div class="md:mx-6 md:p-12">
                                                     <div class="grid place-items-center">
@@ -75,12 +103,12 @@ pub fn Register(action: Action<Registration, Result<(), ServerFnError>>) -> impl
                                                             <Input
                                                                 label="First Name".into()
                                                                 value=first_name
-                                                                name="re_data[first_name]".into()
+                                                                name="first_name".into()
                                                             />
                                                             <Input
                                                                 label="Last Name".into()
                                                                 value=last_name
-                                                                name="re_data[last_name]".into()
+                                                                name="last_name".into()
                                                             />
                                                         </div>
 
@@ -88,27 +116,27 @@ pub fn Register(action: Action<Registration, Result<(), ServerFnError>>) -> impl
                                                             label="Email".into()
                                                             type_="email".into()
                                                             value=email
-                                                            name="re_data[email]".into()
+                                                            name="email".into()
                                                         />
 
                                                         <Input
                                                             label="Contact".into()
                                                             value=contact
-                                                            name="re_data[contact]".into()
+                                                            name="contact".into()
                                                         />
 
                                                         <Input
                                                             label="Password".into()
                                                             type_="password".into()
                                                             value=password
-                                                            name="re_data[password]".into()
+                                                            name="password".into()
                                                         />
 
                                                         <Input
                                                             label="Confirm Password".into()
                                                             type_="password".into()
                                                             value=confirm_password
-                                                            name="re_data[confirm_password]".into()
+                                                            name="confirm_password".into()
                                                         />
                                                     </section>
                                                 </div>
@@ -130,13 +158,13 @@ pub fn Register(action: Action<Registration, Result<(), ServerFnError>>) -> impl
                                                             <Input
                                                                 label="Hourly Rate".into()
                                                                 value=hourly_rate
-                                                                name="re_data[hourly_rate]".into()
+                                                                name="hourly_rate".into()
                                                             />
 
                                                             <Input
                                                                 label="Working Experience".into()
                                                                 value=working_experience
-                                                                name="re_data[working_experience]".into()
+                                                                name="working_experience".into()
                                                             />
 
                                                             <Show
@@ -146,7 +174,7 @@ pub fn Register(action: Action<Registration, Result<(), ServerFnError>>) -> impl
                                                                 <Input
                                                                     label="Working Department".into()
                                                                     value=working_department
-                                                                    name="re_data[working_department]".into()
+                                                                    name="working_department".into()
                                                                 />
                                                             </Show>
                                                         </Show>
@@ -189,7 +217,7 @@ pub fn Register(action: Action<Registration, Result<(), ServerFnError>>) -> impl
                                                             <Input
                                                                 label="Organization Name".into()
                                                                 value=organization
-                                                                name="re_data[organization]".into()
+                                                                name="organization".into()
                                                             />
 
                                                             <Show
@@ -203,19 +231,19 @@ pub fn Register(action: Action<Registration, Result<(), ServerFnError>>) -> impl
                                                                 <Input
                                                                     label="Organization Email".into()
                                                                     value=organization_email
-                                                                    name="re_data[organization_email]".into()
+                                                                    name="organization_email".into()
                                                                 />
 
                                                                 <Input
                                                                     label="Organization Contact".into()
                                                                     value=organization_contact
-                                                                    name="re_data[organization_contact]".into()
+                                                                    name="organization_contact".into()
                                                                 />
 
                                                                 <Input
                                                                     label="Organization Location".into()
                                                                     value=organization_location
-                                                                    name="re_data[organization_location]".into()
+                                                                    name="organization_location".into()
                                                                 />
                                                             </Show>
                                                         </Show>
@@ -240,17 +268,13 @@ pub fn Register(action: Action<Registration, Result<(), ServerFnError>>) -> impl
                                                             class="inline-block rounded border-2 border-danger px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-danger transition duration-150 ease-in-out hover:border-danger-600 hover:bg-danger-50/50 hover:text-danger-600 focus:border-danger-600 focus:bg-danger-50/50 focus:text-danger-600 focus:outline-none focus:ring-0 active:border-danger-700 active:text-danger-700 dark:hover:bg-rose-950 dark:focus:bg-rose-950"
                                                             data-twe-ripple-init
                                                             data-twe-ripple-color="light"
-                                                            on:click=move |_| {
-                                                                leptos_router::use_navigate()("/", Default::default());
-                                                            }
                                                         >
-
                                                             Login
                                                         </button>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </ActionForm>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

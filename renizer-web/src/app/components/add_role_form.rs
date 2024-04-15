@@ -29,6 +29,19 @@ pub fn AddRoleForm(
     let min_date = chrono::Utc::now().format("%Y-%m-%d").to_string();
     let add_role_action = Action::<AddRole, _>::server();
 
+    let _ = create_local_resource(add_role_action.value(), move|res| async move {
+        if let Some(Ok((role, task))) = res {
+            use_context::<WriteSignal<Vec<collaboration::Collaboration>>>().unwrap().update(|v| v.push(role));
+            use_context::<WriteSignal<Vec<collaboration_task::CollaborationTask>>>().unwrap().update(|v| v.push(task));
+
+            set_role.update(|v| *v = "");
+            set_task.update(|v| *v = "");
+            set_start_date.update(|v| *v = "");
+            set_expected_hour.update(|v| *v = "");
+            set_expected_delivery_date.update(|v| *v = "");
+        }
+    });
+
     view! {
         <section class="gradient-form h-screen bg-blueGray-50 py-1 fixed top-0 left-0 right-0 mx-auto z-50 backdrop-blur">
             <div class="container h-full p-10">
@@ -60,18 +73,6 @@ pub fn AddRoleForm(
                                                         project_id: project_id.clone(),
                                                         role_form 
                                                     });
-                                                    
-                                                    if let Some(Ok((role, task))) = add_role_action.value()() {
-                                                        use_context::<WriteSignal<Vec<collaboration::Collaboration>>>().unwrap().update(|v| v.push(role));
-
-                                                        use_context::<WriteSignal<Vec<collaboration_task::CollaborationTask>>>().unwrap().update(|v| v.push(task));
-
-                                                        set_role.update(|v| *v = "");
-                                                        set_task.update(|v| *v = "");
-                                                        set_start_date.update(|v| *v = "");
-                                                        set_expected_hour.update(|v| *v = "");
-                                                        set_expected_delivery_date.update(|v| *v = "");
-                                                    }
                                                 }
                                             }    
                                         >
@@ -157,7 +158,7 @@ pub async fn add_role(p_user_id: String, project_id: String, role_form: RoleForm
         end_date: None,
         role: role_form.role
     };
-    collaboration::ssr::insert_collaboration(collaboration.clone()).await?;
+    // collaboration::ssr::insert_collaboration(collaboration.clone()).await?;
 
     let collaboration_task = collaboration_task::CollaborationTask {
         p_user_id,
@@ -170,7 +171,7 @@ pub async fn add_role(p_user_id: String, project_id: String, role_form: RoleForm
         expected_day: Decimal::from_i64(str_to_datetime(&role_form.expected_delivery_date)?.signed_duration_since(Utc::now()).num_days()).unwrap_or_default(),
         expected_hour: Decimal::from_str(&role_form.expected_hour)?
     };
-    collaboration_task::ssr::insert_collaboration_task(collaboration_task.clone()).await?;
+    // collaboration_task::ssr::insert_collaboration_task(collaboration_task.clone()).await?;
 
     Ok((collaboration, collaboration_task))
 }

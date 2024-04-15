@@ -14,8 +14,16 @@ pub struct LoginData {
 pub fn Login(
     action: Action<Login, Result<Option<user::User>, ServerFnError>>
 ) -> impl IntoView {
-    let (email, _set_email) = create_signal("");
-    let (password, _set_password) = create_signal("");
+    let (email, set_email) = create_signal("");
+    let (password, set_password) = create_signal("");
+
+    let _ = create_local_resource(action.value(), move |res| async move {
+        if let Some(Ok(Some(_))) = res {
+            set_email("");
+            set_password("");
+            leptos_router::use_navigate()("/dashboard", Default::default());
+        }
+    });
 
     view! {
         <section class="roboto-regular gradient-form h-screen bg-gray-700 flex justify-center items-center">
@@ -29,20 +37,26 @@ pub fn Login(
                                         <div class="grid place-items-center">
                                             <Logo/>
                                         </div>
-                                        <ActionForm class="space-y-4" action=action>
+                                        <form class="space-y-4" on:submit=move|ev| {
+                                            ev.prevent_default();
+                                            let data = LoginData::from_event(&ev);
+                                            if let Ok(login_data) = data {
+                                                action.dispatch(Login { login_data });
+                                            }
+                                        }>
                                             <p class="mb-4 text-light">Please login to your account</p>
 
                                             <Input
                                                 label="Email".into()
                                                 type_="email".into()
-                                                name="login_data[email]".into()
+                                                name="email".into()
                                                 value=email
                                             />
 
                                             <Input
                                                 label="Password".into()
                                                 type_="password".into()
-                                                name="login_data[password]".into()
+                                                name="password".into()
                                                 value=password
                                             />
 
@@ -78,7 +92,7 @@ pub fn Login(
                                                     Register
                                                 </button>
                                             </div>
-                                        </ActionForm>
+                                        </form>
                                     </div>
                                 </div>
 
