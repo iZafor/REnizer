@@ -8,6 +8,9 @@ use leptos_router::*;
 use crate::tables::user::User;
 
 pub type UserCtx = Resource<(usize, usize, usize), Result<Option<User>, ServerFnError>>;
+pub type LoginCtx = Action<Login, Result<Option<User>, ServerFnError>>;
+pub type RegisterCtx =  Action<Registration, Result<(), ServerFnError>>;
+pub type LogoutCtx = Action<Logout, Result<(), ServerFnError>>;
 
 #[component]
 pub fn App() -> impl IntoView {
@@ -28,7 +31,9 @@ pub fn App() -> impl IntoView {
     );
 
     provide_context(user);
+    provide_context(login_action);
     provide_context(logout_action);
+    provide_context(register_action);
 
     view! {
         <Title text="REnizer"/>

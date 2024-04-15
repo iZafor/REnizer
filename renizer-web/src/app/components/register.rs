@@ -301,6 +301,7 @@ pub async fn registration(re_data: RegistrationData) -> Result<(), ServerFnError
     use leptos::use_context;
     use bcrypt::{hash, DEFAULT_COST};
     use uuid::Uuid;
+    use rust_decimal::{Decimal, prelude::FromPrimitive};
 
     let req_url = use_context::<ReqInfo>().unwrap().url;
     let user_type = req_url.rsplit_once("/").unwrap_or_default().1;
@@ -361,8 +362,8 @@ pub async fn registration(re_data: RegistrationData) -> Result<(), ServerFnError
     } else {
         let mut associate = project_associate::ProjectAssociate {
             p_user_id: user_id.clone(),
-            working_experience: re_data.working_experience.parse::<u32>().unwrap_or_default(),   
-            hourly_rate: re_data.hourly_rate.parse::<f32>().unwrap_or_default(),
+            working_experience: Decimal::from_u32(re_data.working_experience.parse::<u32>().unwrap_or_default()).unwrap_or_default(),   
+            hourly_rate: Decimal::from_f32(re_data.hourly_rate.parse::<f32>().unwrap_or_default()).unwrap_or_default(),
             associate_type: "".into(),
         };
 
