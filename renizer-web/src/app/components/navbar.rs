@@ -4,8 +4,6 @@ use crate::{app::{components::Logo, UserCtx}, auth::Logout};
 
 #[component]
 pub fn Navbar() -> impl IntoView {
-    let (on_focus, set_on_focus) = create_signal(false);
-
     let user_ctx = use_context::<UserCtx>().unwrap();
     let logout_action = use_context::<Action<Logout, Result<(), ServerFnError>>>().unwrap();
 
@@ -64,30 +62,6 @@ pub fn Navbar() -> impl IntoView {
                         </a>
                     </div>
                     <div class="flex items-center gap-4 md:gap-6">
-                        <div
-                            class="ml-auto w-[260px] flex items-center p-1 px-3 rounded-md"
-                            class=("bg-gray-50", on_focus)
-                            class=("bg-gray-700", move || on_focus() == false)
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class=("fill-gray-700", on_focus)
-                                class=("fill-gray-50", move || on_focus() == false)
-                                height="24px"
-                                width="24px"
-                                viewBox="0 0 512 512"
-                            >
-                                <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"></path>
-                            </svg>
-                            <input
-                                class="flex bg-gray-700 focus:bg-gray-50 rounded-md border-input bg-background px-3 py-2 ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground outline-none disabled:cursor-not-allowed disabled:opacity-50 w-full h-8 text-sm border-0 shadow-none resize-none pl-4"
-                                on:focus=move |_| set_on_focus.update(|v| *v = true)
-                                on:blur=move |_| set_on_focus.update(|v| *v = false)
-                                placeholder="Search..."
-                                type="search"
-                            />
-                        </div>
-
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             class="fill-gray-50 cursor-pointer hover:fill-gray-500"

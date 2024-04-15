@@ -48,6 +48,12 @@ pub fn ProjectView() -> impl IntoView {
     let (roles, set_roles) = create_signal(vec![]); 
     let (tasks, set_tasks) = create_signal(vec![]);
     let (show_add_role, set_show_add_role) = create_signal(false);
+    let (on_focus, set_on_focus) = create_signal(false);
+    let (s_text, set_s_text) = create_signal("".to_string());
+
+    let filtered_signal = move || roles().iter().filter(|(_, val): &&(String, RoleRowData)| {
+        val.role.to_lowercase().contains(&s_text().to_lowercase())
+    }).map(|val| val.to_owned()).collect::<Vec<_>>();
 
     let project = create_resource(
         project_id,
@@ -179,18 +185,51 @@ pub fn ProjectView() -> impl IntoView {
                                                                 </div>
                                                             </a>
                                                         </div>
-                                                        <button
-                                                            on:click=move |_| { set_show_add_role(true) }
-                                                            class="text-dark hover:text-light bg-light mt-4 inline-flex items-start justify-start rounded px-6 py-3 hover:bg-gray-500 focus:outline-none focus:ring-2 sm:mt-0"
-                                                        >
-                                                            <p class="text-sm font-medium leading-none">Add Role</p>
-                                                        </button>
+                                                      
+                                                        <span class="space-x-4 flex">
+                                                            <div
+                                                                class="ml-auto w-[260px] flex items-center p-1 px-3 rounded-md"
+                                                                class=("bg-gray-50", on_focus)
+                                                                class=("bg-gray-700", move || on_focus() == false)
+                                                            >
+                                                                <svg
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    class=("fill-gray-700", on_focus)
+                                                                    class=("fill-gray-50", move || on_focus() == false)
+                                                                    height="24px"
+                                                                    width="24px"
+                                                                    viewBox="0 0 512 512"
+                                                                >
+                                                                    <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"></path>
+                                                                </svg>
+                                                                <input
+                                                                    class="flex bg-gray-700 focus:bg-gray-50 rounded-md border-input bg-background px-3 py-3 ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground outline-none disabled:cursor-not-allowed disabled:opacity-50 w-full h-8 text-sm border-0 shadow-none resize-none pl-4"
+                                                                    on:focus=move |_| set_on_focus.update(|v| *v = true)
+                                                                    on:blur=move |_| set_on_focus.update(|v| *v = false)
+                                                                    placeholder="Search Role..."
+                                                                    type="search"
+                                                                    on:input=move|ev| {
+                                                                        let _ = gloo_timers::callback::Timeout::new(500, move || {});
+
+                                                                        set_s_text(event_target_value(&ev));
+                                                                    }
+                                                                />
+                                                            </div>
+
+                                                            <button
+                                                                on:click=move |_| { set_show_add_role(true) }
+                                                                class="text-dark hover:text-light bg-light mt-4 inline-flex items-start justify-start rounded px-6 py-3 hover:bg-gray-500 focus:outline-none focus:ring-2 sm:mt-0"
+                                                            >
+                                                                <p class="text-sm font-medium leading-none">Add Role</p>
+                                                            </button>
+
+                                                        </span>
                                                     </div>
                                                     <div class="mt-7 overflow-x-auto">
                                                         <table class="w-full whitespace-nowrap">
                                                             <tbody>
                                                                 <For
-                                                                    each=roles
+                                                                    each=filtered_signal
                                                                     key=move |(id, _)| id.clone()
                                                                     children=move |(_, rd)| view! { 
                                                                         <RoleRow rd=rd.clone()/> 
