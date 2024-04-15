@@ -17,8 +17,8 @@ pub fn App() -> impl IntoView {
     let login_action = Action::<Login, _>::server();
     let register_action = Action::<Registration, _>::server();
     let logout_action = Action::<Logout, _>::server();
-    
-    let user = create_local_resource(
+
+    let user = create_resource(
         move || (
             login_action.version().get(),
             register_action.version().get(),
@@ -47,6 +47,7 @@ pub fn App() -> impl IntoView {
                             view=move || view! { <Register action=register_action/> }
                         />
                         <Route path="/project/:project-id" view=ProjectView/>
+                        <Route path="/profile" view=Profile/>
                     </Route>
                 </Routes>
             </main>

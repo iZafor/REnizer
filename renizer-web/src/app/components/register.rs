@@ -82,14 +82,17 @@ pub fn Register(action: Action<Registration, Result<(), ServerFnError>>) -> impl
                             <div class="flex h-full flex-wrap items-center justify-center text-light">
                                 <div class="w-full">
                                     <div class="block rounded-lg bg-white shadow-lg dark:bg-neutral-800">
-                                        <form class="g-0 lg:flex lg:flex-wrap" on:submit=move|ev| {
-                                            ev.prevent_default();
-                                            let data = RegistrationData::from_event(&ev);
-                                            if let Ok(re_data) = data {
-                                                action.dispatch(Registration { re_data });
+                                        <form
+                                            class="g-0 lg:flex lg:flex-wrap"
+                                            on:submit=move |ev| {
+                                                ev.prevent_default();
+                                                let data = RegistrationData::from_event(&ev);
+                                                if let Ok(re_data) = data {
+                                                    action.dispatch(Registration { re_data });
+                                                }
                                             }
-                                        }
-                                            >
+                                        >
+
                                             <div class="px-4 md:px-0 lg:w-6/12">
                                                 <div class="md:mx-6 md:p-12">
                                                     <div class="grid place-items-center">
@@ -293,7 +296,7 @@ pub fn Register(action: Action<Registration, Result<(), ServerFnError>>) -> impl
 pub async fn registration(re_data: RegistrationData) -> Result<(), ServerFnError> {
     use crate::{ex::ReqInfo, 
         tables::{user, investor, project_manager, project_contributor, project_associate, organization},
-        auth::ssr::pool
+        auth::ssr::{pool, auth}
     };
     use leptos::use_context;
     use bcrypt::{hash, DEFAULT_COST};
@@ -337,7 +340,7 @@ pub async fn registration(re_data: RegistrationData) -> Result<(), ServerFnError
             email: Some(re_data.organization_email.clone()),
             location: (!re_data.organization_location.is_empty()).then_some(re_data.organization_location.clone()) 
         };
-        user.org_id = Some(org_id.clone());
+        user.org_id = Some(org_id);
         organization::ssr::insert_organization(org).await?;
     }
 
@@ -346,7 +349,7 @@ pub async fn registration(re_data: RegistrationData) -> Result<(), ServerFnError
 
     if user_type == "investor" {
         let mut investor = investor::Investor {
-            i_user_id: user_id,
+            i_user_id: user_id.clone(),
             investor_type: "".into()
         };
 
@@ -380,6 +383,9 @@ pub async fn registration(re_data: RegistrationData) -> Result<(), ServerFnError
             project_contributor::ssr::insert_project_contributor(contributor).await?;
         }
     }
+
+    auth()?.login_user(user_id);
+    auth()?.remember_user(true);
 
     Ok(())
 }

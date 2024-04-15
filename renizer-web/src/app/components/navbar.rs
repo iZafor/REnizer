@@ -5,9 +5,13 @@ use crate::{app::{components::Logo, UserCtx}, auth::Logout};
 #[component]
 pub fn Navbar() -> impl IntoView {
     let user_ctx = use_context::<UserCtx>().unwrap();
+    
     let logout_action = use_context::<Action<Logout, Result<(), ServerFnError>>>().unwrap();
 
     view! {
+        <Transition
+            fallback=move || view! {}
+        >
         <nav class="flex h-16 w-full items-center border-b border-gray-200/50 backdrop-filter bg-dark">
             <a class="flex items-center gap-2 px-4 md:px-6" href="/">
                 <Logo height="140px".into() width="140px".into()/>
@@ -85,5 +89,6 @@ pub fn Navbar() -> impl IntoView {
                 </div>
             </Show>
         </nav>
+    </Transition>
     }
 }

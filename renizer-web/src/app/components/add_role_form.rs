@@ -62,32 +62,25 @@ pub fn AddRoleForm(
                             <div class="g-0 lg:flex lg:flex-wrap">
                                 <div class="grid w-full md:px-0">
                                     <div class="md:mx-6 md:p-12">
-                                        <form 
+                                        <form
                                             class="space-y-4"
-                                            on:submit=move|ev| {
+                                            on:submit=move |ev| {
                                                 ev.prevent_default();
                                                 let data = RoleFormData::from_event(&ev);
                                                 if let Ok(role_form) = data {
-                                                    add_role_action.dispatch(AddRole {
-                                                        p_user_id: p_user_id.clone(),
-                                                        project_id: project_id.clone(),
-                                                        role_form 
-                                                    });
+                                                    add_role_action
+                                                        .dispatch(AddRole {
+                                                            p_user_id: p_user_id.clone(),
+                                                            project_id: project_id.clone(),
+                                                            role_form,
+                                                        });
                                                 }
-                                            }    
+                                            }
                                         >
 
-                                            <Input
-                                                label="Role".into()
-                                                value=role
-                                                name="role".into()
-                                            />
+                                            <Input label="Role".into() value=role name="role".into()/>
 
-                                            <Input
-                                                label="Task".into()
-                                                value=task
-                                                name="task".into()
-                                            />
+                                            <Input label="Task".into() value=task name="task".into()/>
 
                                             <Input
                                                 label="Start Date".into()

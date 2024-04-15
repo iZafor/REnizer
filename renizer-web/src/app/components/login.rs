@@ -21,7 +21,7 @@ pub fn Login(
         if let Some(Ok(Some(_))) = res {
             set_email("");
             set_password("");
-            leptos_router::use_navigate()("/dashboard", Default::default());
+            leptos_router::use_navigate()("/profile", Default::default());
         }
     });
 
@@ -37,13 +37,17 @@ pub fn Login(
                                         <div class="grid place-items-center">
                                             <Logo/>
                                         </div>
-                                        <form class="space-y-4" on:submit=move|ev| {
-                                            ev.prevent_default();
-                                            let data = LoginData::from_event(&ev);
-                                            if let Ok(login_data) = data {
-                                                action.dispatch(Login { login_data });
+                                        <form
+                                            class="space-y-4"
+                                            on:submit=move |ev| {
+                                                ev.prevent_default();
+                                                let data = LoginData::from_event(&ev);
+                                                if let Ok(login_data) = data {
+                                                    action.dispatch(Login { login_data });
+                                                }
                                             }
-                                        }>
+                                        >
+
                                             <p class="mb-4 text-light">Please login to your account</p>
 
                                             <Input
@@ -136,7 +140,6 @@ pub async fn login(login_data: LoginData) -> Result<Option<user::User>, ServerFn
         .then_some({
             auth()?.login_user(user.user_id.clone());
             auth()?.remember_user(true);
-            logging::log!("Verified user: {user:?}");
             user
     }))
 }

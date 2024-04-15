@@ -185,7 +185,7 @@ pub fn ProjectView() -> impl IntoView {
                                                                 </div>
                                                             </a>
                                                         </div>
-                                                      
+
                                                         <span class="space-x-4 flex">
                                                             <div
                                                                 class="ml-auto w-[260px] flex items-center p-1 px-3 rounded-md"
@@ -208,12 +208,15 @@ pub fn ProjectView() -> impl IntoView {
                                                                     on:blur=move |_| set_on_focus.update(|v| *v = false)
                                                                     placeholder="Search Role..."
                                                                     type="search"
-                                                                    on:input=move|ev| {
-                                                                        let _ = gloo_timers::callback::Timeout::new(500, move || {});
-
+                                                                    on:input=move |ev| {
+                                                                        let _ = gloo_timers::callback::Timeout::new(
+                                                                            500,
+                                                                            move || {},
+                                                                        );
                                                                         set_s_text(event_target_value(&ev));
                                                                     }
                                                                 />
+
                                                             </div>
 
                                                             <button
@@ -231,19 +234,20 @@ pub fn ProjectView() -> impl IntoView {
                                                                 <For
                                                                     each=filtered_signal
                                                                     key=move |(id, _)| id.clone()
-                                                                    children=move |(_, rd)| view! { 
-                                                                        <RoleRow rd=rd.clone()/> 
-                                                                        <Show
-                                                                             when=show_add_role
-                                                                        >
-                                                                            <AddRoleForm 
-                                                                                p_user_id=rd.p_user_id.clone()
-                                                                                project_id=project_id()
-                                                                                on_close=move |_| set_show_add_role(false)
-                                                                            />
-                                                                        </Show>
+                                                                    children=move |(_, rd)| {
+                                                                        view! {
+                                                                            <RoleRow rd=rd.clone()/>
+                                                                            <Show when=show_add_role>
+                                                                                <AddRoleForm
+                                                                                    p_user_id=rd.p_user_id.clone()
+                                                                                    project_id=project_id()
+                                                                                    on_close=move |_| set_show_add_role(false)
+                                                                                />
+                                                                            </Show>
+                                                                        }
                                                                     }
                                                                 />
+
                                                             </tbody>
                                                         </table>
                                                     </div>

@@ -61,26 +61,22 @@ pub fn NewProjectForm(
                             <div class="g-0 lg:flex lg:flex-wrap">
                                 <div class="grid w-full md:px-0">
                                     <div class="md:mx-6 md:p-12">
-                                        <form 
+                                        <form
                                             class="space-y-4"
-                                            on:submit=move|ev| {
+                                            on:submit=move |ev| {
                                                 ev.prevent_default();
                                                 if let Ok(mut data) = NewProjectData::from_event(&ev) {
                                                     data.org_restricted = org_restricted();
-
-                                                    new_form_action.dispatch(AddNewProject {
-                                                        m_p_user_id: m_p_user_id.clone(),
-                                                        p_data: data 
-                                                    });
+                                                    new_form_action
+                                                        .dispatch(AddNewProject {
+                                                            m_p_user_id: m_p_user_id.clone(),
+                                                            p_data: data,
+                                                        });
                                                 }
-                                            }    
+                                            }
                                         >
 
-                                            <Input
-                                                label="Name".into()
-                                                value=name
-                                                name="name".into()
-                                            />
+                                            <Input label="Name".into() value=name name="name".into()/>
 
                                             <Input
                                                 label="Description".into()
@@ -102,7 +98,9 @@ pub fn NewProjectForm(
                                                 min=chrono::Utc::now().format("%Y-%m-%d").to_string()
                                             />
 
-                                            <CheckBox on_click=move|_| { set_org_restricted.update(|v| *v = !*v) }/>
+                                            <CheckBox on_click=move |_| {
+                                                set_org_restricted.update(|v| *v = !*v)
+                                            }/>
 
                                             <div class="mb-12 pb-1 pt-1 text-center">
                                                 <button

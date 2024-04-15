@@ -1082,6 +1082,10 @@ video {
   border-right-width: 0px;
 }
 
+.border-t{
+  border-top-width: 1px;
+}
+
 .border-t-0{
   border-top-width: 0px;
 }
@@ -1397,6 +1401,11 @@ video {
 
 .leading-tight{
   line-height: 1.25;
+}
+
+.text-gray-200{
+  --tw-text-opacity: 1;
+  color: rgb(229 231 235 / var(--tw-text-opacity));
 }
 
 .text-gray-400{
