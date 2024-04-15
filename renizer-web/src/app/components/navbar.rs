@@ -18,53 +18,19 @@ pub fn Navbar() -> impl IntoView {
             </a>
 
             <Show
-                when=move || !matches!(user_ctx.get(), Some(Ok(Some(_))))
-                fallback=move || {
-                    view! {
-                        <button
-                            class="btn m-auto mr-5 relative inline-flex items-center justify-start overflow-hidden font-medium transition-all bg-dark rounded hover:bg-white group py-1.5 px-6"
-                            on:click=move |_| {
-                                logout_action.dispatch(Logout {});
-                                use_navigate()("", Default::default());
-                            }
-                        >
-
-                            <span class="w-56 h-48 rounded bg-gray-900 absolute bottom-0 left-0 translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
-                            <span class="relative text-light text-2xl cursor-pointer transition-all ease-in-out before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-gray-50 before:origin-center before:h-[3px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-gray-50 after:origin-center after:h-[3px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%]">
-                                Logout
-                            </span>
-                        </button>
-                    }
-                }
+                when=move || matches!(user_ctx.get(), Some(Ok(Some(_))))
             >
-
-                <div class="flex-1 flex items-center justify-between gap-4 mx-4 md:mx-6">
+                <div 
+                    class="flex-1 flex items-center justify-between gap-4 mx-4 md:mx-6"
+                >
                     <div class="flex justify-center gap-4 text-base font-medium not-italic tabular-nums">
                         <a
                             class="flex w-full items-center gap-1 rounded-md bg-gray-800 px-3 py-2 text-sm font-semibold text-light"
-                            href="#"
+                            href="/project/917fc3c9"
                         >
                             Dashboard
                         </a>
-                        <a
-                            class="flex w-full items-center gap-1 rounded-md hover:bg-gray-700 px-3 py-2 text-sm font-semibold text-light"
-                            href="#"
-                        >
-                            Team
-                        </a>
-                        <a
-                            class="flex w-full items-center gap-1 rounded-md hover:bg-gray-700 px-3 py-2 text-sm font-semibold text-light"
-                            href="#"
-                        >
-                            Projects
-                        </a>
-                        <a
-                            class="flex w-full items-center gap-1 rounded-md hover:bg-gray-700 px-3 py-2 text-sm font-semibold text-light"
-                            href="#"
-                        >
-                            Calendar
-                        </a>
-                    </div>
+                </div>
                     <div class="flex items-center gap-4 md:gap-6">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -85,6 +51,20 @@ pub fn Navbar() -> impl IntoView {
                         >
                             <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"></path>
                         </svg>
+
+                        <button
+                            class="btn m-auto mr-5 relative inline-flex items-center justify-start overflow-hidden font-medium transition-all bg-dark rounded hover:bg-white group py-1.5 px-6"
+                            on:click=move |_| {
+                                logout_action.dispatch(Logout {});
+                                use_navigate()("", Default::default());
+                            }
+                        >
+
+                            <span class="w-56 h-48 rounded bg-gray-900 absolute bottom-0 left-0 translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
+                            <span class="relative text-light text-2xl cursor-pointer transition-all ease-in-out before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-gray-50 before:origin-center before:h-[3px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-gray-50 after:origin-center after:h-[3px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%]">
+                                Logout
+                            </span>
+                        </button>
                     </div>
                 </div>
             </Show>
