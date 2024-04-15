@@ -18,7 +18,8 @@ pub struct NewProjectData {
 pub fn NewProjectForm(
     m_p_user_id: String,
     #[prop(into)]
-    on_close: Callback<ev::MouseEvent, ()>
+    on_close: Callback<ev::MouseEvent, ()>,
+    set_on_close: WriteSignal<bool>
 ) -> impl IntoView {
     let (name, set_name) = create_signal("");
     let (description, set_description) = create_signal("");
@@ -27,6 +28,18 @@ pub fn NewProjectForm(
     let (org_restricted, set_org_restricted) = create_signal(false);
 
     let new_form_action = Action::<AddNewProject, _>::server();
+
+    let _ = create_local_resource(new_form_action.value(), move |res| async move {
+        if let Some(Ok(_)) = res {
+            set_name.update(|v| *v = "");
+            set_description.update(|v| *v = "");
+            set_location.update(|v| *v = "");
+            set_start_date.update(|v| *v = "");
+            set_org_restricted.update(|v| *v = false);
+
+            set_on_close(true);
+        }
+    });
 
     view! {
         <section class="gradient-form h-screen bg-blueGray-50 py-1 fixed top-0 left-0 right-0 mx-auto z-50 backdrop-blur">
@@ -59,14 +72,6 @@ pub fn NewProjectForm(
                                                         m_p_user_id: m_p_user_id.clone(),
                                                         p_data: data 
                                                     });
-
-                                                    if let Some(Ok(_)) = new_form_action.value()() {
-                                                        set_name.update(|v| *v = "");
-                                                        set_description.update(|v| *v = "");
-                                                        set_location.update(|v| *v = "");
-                                                        set_start_date.update(|v| *v = "");
-                                                        set_org_restricted.update(|v| *v = false);
-                                                    }
                                                 }
                                             }    
                                         >
