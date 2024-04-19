@@ -15,10 +15,9 @@ pub struct RoleFormData {
 
 #[component]
 pub fn AddRoleForm(
-    #[prop(into)]
-    on_close: Callback<ev::MouseEvent>,
     p_user_id: String,
-    project_id: String
+    project_id: String,
+    set_show: WriteSignal<bool>
 ) -> impl IntoView {
     let (role, set_role) = create_signal("");
     let (task, set_task) = create_signal("");
@@ -30,15 +29,13 @@ pub fn AddRoleForm(
     let add_role_action = Action::<AddRole, _>::server();
 
     let _ = create_local_resource(add_role_action.value(), move|res| async move {
-        if let Some(Ok((role, task))) = res {
-            use_context::<WriteSignal<Vec<collaboration::Collaboration>>>().unwrap().update(|v| v.push(role));
-            use_context::<WriteSignal<Vec<collaboration_task::CollaborationTask>>>().unwrap().update(|v| v.push(task));
-
+        if let Some(Ok(_)) = res {
             set_role.update(|v| *v = "");
             set_task.update(|v| *v = "");
             set_start_date.update(|v| *v = "");
             set_expected_hour.update(|v| *v = "");
             set_expected_delivery_date.update(|v| *v = "");
+            set_show.update(|v| *v = false);
         }
     });
 
@@ -50,8 +47,9 @@ pub fn AddRoleForm(
                         <div class="bg-dark border-2 border-gray-50 block rounded-lg shadow-lg">
                             <div
                                 class="relative w-full max-w-full flex-1 flex-grow px-4 py-4 text-right"
-                                on:click=on_close
+                                on:click=move |_| { set_show.update(|v| *v = false) }
                             >
+
                                 <button
                                     class="mb-1 mr-1 rounded bg-red-500 px-3 py-1 text-xs font-bold uppercase outline-none transition-all duration-150 ease-linear focus:outline-none"
                                     type="button"
@@ -151,7 +149,7 @@ pub async fn add_role(p_user_id: String, project_id: String, role_form: RoleForm
         end_date: None,
         role: role_form.role
     };
-    // collaboration::ssr::insert_collaboration(collaboration.clone()).await?;
+    collaboration::ssr::insert_collaboration(collaboration.clone()).await?;
 
     let collaboration_task = collaboration_task::CollaborationTask {
         p_user_id,
@@ -164,7 +162,7 @@ pub async fn add_role(p_user_id: String, project_id: String, role_form: RoleForm
         expected_day: Decimal::from_i64(str_to_datetime(&role_form.expected_delivery_date)?.signed_duration_since(Utc::now()).num_days()).unwrap_or_default(),
         expected_hour: Decimal::from_str(&role_form.expected_hour)?
     };
-    // collaboration_task::ssr::insert_collaboration_task(collaboration_task.clone()).await?;
+    collaboration_task::ssr::insert_collaboration_task(collaboration_task.clone()).await?;
 
     Ok((collaboration, collaboration_task))
 }

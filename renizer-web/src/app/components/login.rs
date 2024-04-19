@@ -1,7 +1,7 @@
 use leptos::*;
 use super::*;
 use leptos_router::*;
-use crate::tables::user;
+use crate::{app::UserCtx, tables::user};
 use serde::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
@@ -26,6 +26,13 @@ pub fn Login(
     });
 
     view! {
+        <Transition>
+            {move || match use_context::<UserCtx>().unwrap().get() {
+                None | Some(Ok(None)) | Some(Err(_)) => view! {}.into_view(),
+                Some(Ok(Some(_))) => view! { <Redirect path="/profile"/> }.into_view(),
+            }}
+
+        </Transition>
         <section class="roboto-regular gradient-form h-screen bg-gray-700 flex justify-center items-center">
             <div class="container h-full p-10">
                 <div class="flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-light">

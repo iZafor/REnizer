@@ -90,9 +90,7 @@ pub fn ProjectView() -> impl IntoView {
         }  
     );
 
-    provide_context(set_roles);
     provide_context(tasks);
-    provide_context(set_tasks);
 
     view! {
         <Show
@@ -241,7 +239,7 @@ pub fn ProjectView() -> impl IntoView {
                                                                                 <AddRoleForm
                                                                                     p_user_id=rd.p_user_id.clone()
                                                                                     project_id=project_id()
-                                                                                    on_close=move |_| set_show_add_role(false)
+                                                                                    set_show=set_show_add_role
                                                                                 />
                                                                             </Show>
                                                                         }

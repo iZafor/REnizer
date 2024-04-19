@@ -1,4 +1,5 @@
 use leptos::*;
+use leptos_router::Redirect;
 
 use crate::app::UserCtx;
 
@@ -7,12 +8,14 @@ pub fn Profile() -> impl IntoView {
     let user_ctx = use_context::<UserCtx>().unwrap();
 
     view! {
-        <Transition
-            fallback=move || view! {}
-        >
-        {move|| match user_ctx.get() {
-            None | Some(Err(_)) | Some(Ok(None)) => view! {  }.into_view(),
-            Some(Ok(Some(user))) => view! {
+        <Transition fallback=move || {
+            view! {}
+        }>
+            {move || match user_ctx.get() {
+                None | Some(Err(_)) => view! {}.into_view(),
+                Some(Ok(None)) => view! { <Redirect path="/"/> }.into_view(),
+                Some(Ok(Some(user))) => {
+                    view! {
                         <section class="">
                             <div class="container h-full p-10">
                                 <div class="flex h-full flex-wrap items-center justify-center text-light">
@@ -29,7 +32,7 @@ pub fn Profile() -> impl IntoView {
                                                             } else {
                                                                 "Project Associate"
                                                             }}
-        
+
                                                         </p>
                                                         <div class="border-t border-gray-50 flex space-x-8 py-2">
                                                             <p class="text-md text-gray-200 font-semibold">
@@ -61,7 +64,9 @@ pub fn Profile() -> impl IntoView {
                         </section>
                     }
                         .into_view()
-        }}
+                }
+            }}
+
         </Transition>
     }
 }
