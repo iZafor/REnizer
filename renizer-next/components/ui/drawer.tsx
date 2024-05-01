@@ -1,8 +1,8 @@
 "use client"
 
-import * as React from "react"
-import { Drawer as DrawerPrimitive } from "vaul"
-
+import * as React from "react";
+import { Drawer as DrawerPrimitive } from "vaul";
+import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils"
 
 const Drawer = ({
@@ -37,8 +37,11 @@ DrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName
 const DrawerContent = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>
->(({ className, children, ...props }, ref) => (
-  <DrawerPortal>
+>(({ className, children, ...props }, ref) => {
+  const { theme } = useTheme();
+  const barBg = theme == "light" ? "[background:hsl(var(--primary))]" : "bg-muted";
+
+  return (<DrawerPortal>
     <DrawerOverlay />
     <DrawerPrimitive.Content
       ref={ref}
@@ -48,11 +51,12 @@ const DrawerContent = React.forwardRef<
       )}
       {...props}
     >
-      <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted" />
+      <div className={`mx-auto mt-4 h-2 w-[100px] rounded-full ${barBg}`} />
       {children}
     </DrawerPrimitive.Content>
-  </DrawerPortal>
-))
+  </DrawerPortal>);
+});
+
 DrawerContent.displayName = "DrawerContent"
 
 const DrawerHeader = ({

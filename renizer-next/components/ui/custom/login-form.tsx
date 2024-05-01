@@ -22,15 +22,15 @@ export default function LoginForm() {
                     style={
                         {
                             "--spread": "90deg",
-                            "--shimmer-color": isLightTheme() ? "rgba(0, 0, 0, 1)" : "#ffffff",
+                            "--shimmer-color": isLightTheme() ? "hsl(var(--primary))" : "#ffffff",
                             "--radius": "1rem",
                             "--speed": "3s",
-                            "--cut": "0.1em",
-                            "--bg": isLightTheme() ? "rgba(200, 200, 200, 1)" : "rgba(0, 0, 0, 1)",
+                            "--cut": "0.15em",
+                            "--bg": isLightTheme() ? "hsl(var(--primary))" : "rgba(0, 0, 0, 1)",
                         } as CSSProperties
                     }
                     className={cn(
-                        "group relative z-0 flex cursor-pointer items-center justify-center overflow-hidden whitespace-nowrap border border-white/10 px-6 py-3 dark:text-gray-50 text-gray-900 [background: var(--bg)] [border-radius:var(--radius)]",
+                        "group relative z-0 flex cursor-pointer items-center justify-center overflow-hidden whitespace-nowrap border border-white/10 px-6 py-3 text-gray-50 [background: var(--bg)] [border-radius:var(--radius)]",
                         "transform-gpu transition-transform duration-300 ease-in-out active:translate-y-[1px]",
                     )}
                 >
