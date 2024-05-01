@@ -10,7 +10,7 @@ export interface ShimmerButtonProps
     shimmerDuration?: string;
     background?: string;
     className?: string;
-    children?: React.ReactNode;
+    children?: React.ReactNode | string;
 }
 
 const ShimmerButton = React.forwardRef<HTMLButtonElement, ShimmerButtonProps>(
@@ -26,7 +26,7 @@ const ShimmerButton = React.forwardRef<HTMLButtonElement, ShimmerButtonProps>(
         ref,
     ) => {
         const { theme } = useTheme();
-        
+
         return (
             <button
                 style={
@@ -36,7 +36,7 @@ const ShimmerButton = React.forwardRef<HTMLButtonElement, ShimmerButtonProps>(
                         "--radius": borderRadius,
                         "--speed": shimmerDuration,
                         "--cut": shimmerSize,
-                        "--bg": theme == "light" ? "rgba(200, 200, 200, 1)" :"rgba(0, 0, 0, 1)",
+                        "--bg": theme == "light" ? "rgba(200, 200, 200, 1)" : "rgba(0, 0, 0, 1)",
                     } as CSSProperties
                 }
                 className={cn(
