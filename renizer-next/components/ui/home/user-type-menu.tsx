@@ -15,7 +15,7 @@ import {
     NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
 
-export function NavigationMenuComp({ title, onlyOptions = false }: { title?: string; onlyOptions?: boolean }) {
+export default function UserTypeMenu({ title, onlyOptions = false }: { title?: string; onlyOptions?: boolean }) {
     return (
         <NavigationMenu className="z-20 mb-2 mt-2">
             <NavigationMenuList>

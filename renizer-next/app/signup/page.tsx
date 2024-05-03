@@ -3,7 +3,7 @@
 import { useSearchParams, redirect } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { NavigationMenuComp as NavigationMenu } from "@/components/ui/home/navigation-menu";
+import UserTypeMenu from "@/components/ui/home/user-type-menu";
 import {
     Card,
     CardContent,
@@ -18,7 +18,7 @@ export default function Page() {
 
     return (
         <span className="w-full h-full grid place-items-center">
-            <NavigationMenu title="Choose Your Role" onlyOptions={true} />
+            <UserTypeMenu title="Choose Your Role" onlyOptions={true} />
             <Card className="msm:mt-10 mt-20">
                 <CardContent>
                     <form className="flex gap-4 flex-col justify-center rounded-md mt-4 msm:w-[20rem] w-[28rem] md:w-[40rem]">
@@ -61,17 +61,17 @@ function OrganizationInfoInput({ userType }: { userType: string }) {
             <h1 className="text-2xl font-semibold">Organization Information</h1>
             {
                 userType === "manager" &&
-                <CheckBoxWithLabel 
-                    label="Organization Already Exits?" 
+                <CheckBoxWithLabel
+                    label="Organization Already Exits?"
                     id="orgExist"
                     onClick={() => setOrgExist(!orgExist)}
                 />
             }
             {
                 userType === "investor" &&
-                <CheckBoxWithLabel 
+                <CheckBoxWithLabel
                     label="Signup As an Individual Investor?"
-                    id="individualInvestor" 
+                    id="individualInvestor"
                     onClick={() => setIndInvestor(!indInvestor)}
                 />
             }
