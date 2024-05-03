@@ -28,10 +28,10 @@ const Checkbox = React.forwardRef<
 Checkbox.displayName = CheckboxPrimitive.Root.displayName
 
 function CheckBoxWithLabel(
-  { label, id, onClick }: { label: string; id: string; onClick?: React.MouseEventHandler }) {
+  { label, id, name, onClick }: { label: string; id: string; name?: string; onClick?: React.MouseEventHandler }) {
   return (
     <span className="items-top flex space-x-2">
-      <Checkbox id={id} onClick={onClick} />
+      <Checkbox id={id} name={!name ? id : name} onClick={onClick} />
       <label
         htmlFor={id}
         className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
