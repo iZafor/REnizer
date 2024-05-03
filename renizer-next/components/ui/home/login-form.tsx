@@ -10,6 +10,7 @@ import { useTheme } from "next-themes";
 import { CSSProperties } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 
 export default function LoginForm() {
     const { theme } = useTheme();
@@ -65,12 +66,17 @@ export default function LoginForm() {
                 </span>
             </DrawerTrigger>
             <DrawerContent className="h-[20rem]">
-                <span className="w-full h-full grid content-start justify-center mt-8 pt-4">
-                    <form className="w-[20rem] grid place-items-center space-y-4">
-                        <Input name="email" type="email" placeholder="Email" required />
-                        <Input name="password" type="password" placeholder="Password" required />
-                        <Button type="submit">Login</Button>
-                    </form>
+                <span className="w-full h-full grid content-start justify-center">
+                    <Card className="mt-8 p-6 space-y-4">
+                        <CardTitle>Enter your credentials</CardTitle>
+                        <CardContent className="p-0">
+                            <form className="grid place-items-center space-y-4">
+                                <Input name="email" type="email" placeholder="Email" required />
+                                <Input name="password" type="password" placeholder="Password" required />
+                                <Button type="submit">Login</Button>
+                            </form>
+                        </CardContent>
+                    </Card>
                 </span>
             </DrawerContent>
         </Drawer>
