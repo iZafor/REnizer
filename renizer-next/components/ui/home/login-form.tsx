@@ -8,8 +8,8 @@ import {
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import { CSSProperties } from "react";
-import { Input } from "@material-tailwind/react";
-import ShimmerButton from "../magicui/shimmer-button";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export default function LoginForm() {
     const { theme } = useTheme();
@@ -67,9 +67,9 @@ export default function LoginForm() {
             <DrawerContent className="h-[20rem]">
                 <span className="w-full h-full grid content-start justify-center mt-8 pt-4">
                     <form className="w-[20rem] grid place-items-center space-y-4">
-                        <Input label="Email" color={isLightTheme() ? "black" : "white"} required />
-                        <Input type="password" label="Password" color={isLightTheme() ? "black" : "white"} required />
-                        <ShimmerButton type="submit" borderRadius="1rem">Login</ShimmerButton>
+                        <Input name="email" type="email" placeholder="Email" required />
+                        <Input name="password" type="password" placeholder="Password" required />
+                        <Button type="submit">Login</Button>
                     </form>
                 </span>
             </DrawerContent>

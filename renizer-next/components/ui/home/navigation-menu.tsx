@@ -15,28 +15,33 @@ import {
     NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
 
-export function NavigationMenuComp() {
+export function NavigationMenuComp({ title, onlyOptions = false }: { title?: string; onlyOptions?: boolean }) {
     return (
         <NavigationMenu className="z-20 mb-2 mt-2">
             <NavigationMenuList>
                 <NavigationMenuItem>
-                    <NavigationMenuTrigger>New Here?</NavigationMenuTrigger>
+                    <NavigationMenuTrigger>{title}</NavigationMenuTrigger>
                     <NavigationMenuContent>
                         <ul className="grid gap-3 p-6 w-56 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                             <li className="row-span-3">
-                                <NavigationMenuLink asChild>
-                                    <Link
-                                        className="flex h-full w-full select-none flex-col justify-center rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                                        href="/"
-                                    >
-                                        <div className="mb-2 mt-2 text-2xl font-medium">
-                                            REnizer
+                                <Link
+                                    className="flex h-full w-full select-none flex-col justify-center rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                                    href="/"
+                                >
+                                    {!onlyOptions ?
+                                        <>
+                                            <div className="mb-2 mt-2 text-2xl font-medium">
+                                                REnizer
+                                            </div>
+                                            <p className="text-sm leading-tight text-muted-foreground">
+                                                Powering Your Green Initiatives - Your Renewable Energy Project Partner
+                                            </p>
+                                        </>
+                                        : <div className="mb-2 mt-2 text-3xl font-medium">
+                                            Go Home
                                         </div>
-                                        <p className="text-sm leading-tight text-muted-foreground">
-                                            Powering Your Green Initiatives - Your Renewable Energy Project Partner
-                                        </p>
-                                    </Link>
-                                </NavigationMenuLink>
+                                    }
+                                </Link>
                             </li>
                             <ListItem href="/signup?type=manager" title="Manager">
                                 Streamline Your Renewable Vision

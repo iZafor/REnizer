@@ -119,6 +119,13 @@ const config = withMT({
         "slide": "slide var(--speed) ease-in-out infinite alternate",
       },
     },
+    screens: {
+      "m2xl": { "max": "1535px" },
+      "mxl": { "max": "1279px" },
+      "mlg": { "max": "1023px" },
+      "mmd": { "max": "767px" },
+      "msm": { "max": "639px" },
+    }
   },
   plugins: [require("tailwindcss-animate")],
 }) satisfies Config
