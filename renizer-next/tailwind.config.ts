@@ -125,6 +125,7 @@ const config = withMT({
       "mlg": { "max": "1023px" },
       "mmd": { "max": "767px" },
       "msm": { "max": "639px" },
+      "nsm": { "max": "505px" },
     }
   },
   plugins: [require("tailwindcss-animate")],
